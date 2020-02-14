@@ -1,5 +1,10 @@
 class TCC {
 
+    /**
+     * Class constructor
+     * 
+     * @constructor
+     */
     constructor() {
         const fs = require('fs');
 
@@ -8,6 +13,11 @@ class TCC {
         const driver = new Builder().forBrowser("chrome").build();
     }
 
+    /**
+     * Handles the browser and the americanas website
+     * 
+     * @param {selenium driver} driver the webdriver
+     */
     AmericanasHandler(driver)
     {
         driver.get("https://google.com.br");
@@ -25,11 +35,20 @@ class TCC {
         }, 45000);
     }
 
-    PrintLine() 
+    /**
+     * 
+     * @param {String} Line the line we want to print in the terminal
+     */
+    PrintLine(Line) 
     {
-        console.log('Reading file ..');
+        console.log(Line);
     }
 
+    /**
+     * 
+     * @param {String} filePath the full file path
+     * @param {String} encod the encoding of the output
+     */
     ReadFile(filePath, encod)
     {
         fs.readFile(filePath, encod, (err, data) => {
