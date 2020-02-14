@@ -6,11 +6,9 @@ class TCC {
      * @constructor
      */
     constructor() {
-        const fs = require('fs');
-
         const {Builder, By, Key, util, until} = require("selenium-webdriver");
         const chrome = require("selenium-webdriver/chrome");
-        const driver = new Builder().forBrowser("chrome").build();
+        // const driver = new Builder().forBrowser("chrome").build();
     }
 
     /**
@@ -51,9 +49,19 @@ class TCC {
      */
     ReadFile(filePath, encod)
     {
+        let fs = require('fs');
         fs.readFile(filePath, encod, (err, data) => {
             if (err) throw err
             console.log(data);
         });
     }
 }
+
+const first = new TCC();
+
+first.PrintLine('Learning how to properly program with NodeJs!');
+
+setTimeout(() => {
+    first.PrintLine('File content:');
+    first.ReadFile('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
+}, 3000);
