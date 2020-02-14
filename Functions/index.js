@@ -46,22 +46,21 @@ class TCC {
      * 
      * @param {String} filePath the full file path
      * @param {String} encod the encoding of the output
+     * @returns {String} data
      */
-    ReadFile(filePath, encod)
+    GetFileContent(filePath, encod)
     {
         let fs = require('fs');
         fs.readFile(filePath, encod, (err, data) => {
             if (err) throw err
-            console.log(data);
+            return data; // USE CALLBACK/PROMISE INSTEAD
         });
     }
 }
 
 const first = new TCC();
+let fileContent = first.GetFileContent('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
 
-first.PrintLine('Learning how to properly program with NodeJs!');
+console.log(fileContent);
 
-setTimeout(() => {
-    first.PrintLine('File content:');
-    first.ReadFile('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
-}, 3000);
+
