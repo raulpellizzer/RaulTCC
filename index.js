@@ -1,23 +1,20 @@
-/**
- *  BEGINNING FIRST SECTION
- * 
- *  */
+const {Builder, By, Key, util, until} = require("selenium-webdriver");
+const chrome = require("selenium-webdriver/chrome");
 
-const {Builder, By, Key, util} = require('selenium-webdriver');
+const driver = new Builder().forBrowser("chrome").build();
 
-async function example() {
-    let driver = await new Builder().forBrowser('chrome').build();
-    await driver.get('https://google.com.br');
-    await driver.findElement(By.name('q')).sendKeys('Selenium', Key.RETURN);
-}
+driver.get("https://google.com.br");
+driver.manage().window().maximize();    
+driver.findElement(By.name("q")).sendKeys("Americanas.com.br", Key.ENTER);
 
-example();
+let initialLink = driver.wait(until.elementLocated(By.className('LC20lb'), 10000));
+initialLink.click();
 
-/**
- *  ENDING FIRST SECTION
- * 
- *  */
+let americanasSearchBar = driver.wait(until.elementLocated(By.id('h_search-input'), 10000));
+americanasSearchBar.sendKeys("Headphones", Key.ENTER);
 
- // ----------------------------------------------------------------------------------------------------------------
+setTimeout(() => {
+    console.log("Continuing ..");
+}, 45000);
 
- 
+
