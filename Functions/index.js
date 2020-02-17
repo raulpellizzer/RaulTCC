@@ -43,24 +43,69 @@ class TCC {
     }
 
     /**
+     * Asyncronous function
      * 
      * @param {String} filePath the full file path
      * @param {String} encod the encoding of the output
      * @returns {String} data
      */
-    GetFileContent(filePath, encod)
+    // GetFileContent(filePath, encod)
+    // {
+    //     let fs = require('fs');
+    //     fs.readFileSy(filePath, encod, (err, data) => {
+    //         if (err) throw err
+    //         return data; // USE CALLBACK/PROMISE INSTEAD
+    //     });
+    // }
+
+    /**
+     * Syncronous function
+     * 
+     * @param {String} filePath the full file path
+     * @param {String} encod the encoding of the output
+     * @returns {String} data
+     */
+    GetFileContentSync(filePath, encod)
     {
         let fs = require('fs');
-        fs.readFile(filePath, encod, (err, data) => {
-            if (err) throw err
-            return data; // USE CALLBACK/PROMISE INSTEAD
-        });
+        let data = fs.readFileSync(filePath, encod);
+
+        return data;
     }
+
+    GetIniConfig(iniSection, iniSectionTag, data)
+    {
+        // iniSection = [SECTION]
+        // iniSectionTag = IniSectionTag=SomeTextGoesHere
+
+        // Gets a piece of the main string (in this case, the whole file content)
+        let test = data.substr(0,14);
+        console.log(test);
+
+        // Go through the file, caracter by caracter
+        // for (let i = 0; i<data.length; i++) {
+        //     console.log(data[i]);
+        // }
+
+    }
+
+    Test()
+    {
+        //WORKS
+        var string = "foo",
+        substring = "oo";
+        console.log(string.includes(substring));
+    }
+
 }
 
+// Debug Section
 const first = new TCC();
-let fileContent = first.GetFileContent('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
+let fileContent = first.GetFileContentSync('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
+// first.GetIniConfig('iniSection', 'iniSectionTag', fileContent)
 
-console.log(fileContent);
+// console.log(fileContent);
+
+first.Test();
 
 
