@@ -34,15 +34,6 @@ class TCC {
     }
 
     /**
-     * 
-     * @param {String} Line the line we want to print in the terminal
-     */
-    PrintLine(Line) 
-    {
-        console.log(Line);
-    }
-
-    /**
      * Asyncronous function
      * 
      * @param {String} filePath the full file path
@@ -73,39 +64,22 @@ class TCC {
         return data;
     }
 
-    GetIniConfig(iniSection, iniSectionTag, data)
+    GetIniConfig(iniSection, iniSectionTag)
     {
-        // iniSection = [SECTION]
-        // iniSectionTag = IniSectionTag=SomeTextGoesHere
+        var fs  = require('fs');
+        var ini = require('ini');
 
-        // Gets a piece of the main string (in this case, the whole file content)
-        let test = data.substr(0,14);
-        console.log(test);
+        var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
-        // Go through the file, caracter by caracter
-        // for (let i = 0; i<data.length; i++) {
-        //     console.log(data[i]);
-        // }
+        // Retrieves the key 'iniSectionTag' from the section 'iniSection'
+        let result = config[iniSection][iniSectionTag];
 
+        console.log(result);
     }
-
-    Test()
-    {
-        //WORKS
-        var string = "foo",
-        substring = "oo";
-        console.log(string.includes(substring));
-    }
-
 }
 
 // Debug Section
-const first = new TCC();
-let fileContent = first.GetFileContentSync('C:/Users/raull/OneDrive/Área de Trabalho/Programação/TCC/Functions/config.ini', 'utf8');
-// first.GetIniConfig('iniSection', 'iniSectionTag', fileContent)
-
-// console.log(fileContent);
-
-first.Test();
+const robot = new TCC();
+robot.GetIniConfig('TAGS_PRODUCT', 'Tags'); // We have to find a way to make this dinamic, so that this doesnt get hard set in the code.
 
 
