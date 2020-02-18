@@ -6,18 +6,20 @@ class TCC {
      * @constructor
      */
     constructor() {
-        const {Builder, By, Key, util, until} = require("selenium-webdriver");
-        const chrome = require("selenium-webdriver/chrome");
-        // const driver = new Builder().forBrowser("chrome").build();
+        
     }
 
     /**
      * Handles the browser and the americanas website
      * 
-     * @param {selenium driver} driver the webdriver
+     * @param {String} searchTags the tags that the robot will search for
      */
-    AmericanasHandler(driver)
+    AmericanasHandler(searchTags)
     {
+        const {Builder, By, Key, util, until} = require("selenium-webdriver");
+        const chrome = require("selenium-webdriver/chrome");
+        const driver = new Builder().forBrowser("chrome").build();
+
         driver.get("https://google.com.br");
         driver.manage().window().maximize();    
         driver.findElement(By.name("q")).sendKeys("Americanas.com.br", Key.ENTER);
@@ -26,7 +28,9 @@ class TCC {
         initialLink.click();
 
         let americanasSearchBar = driver.wait(until.elementLocated(By.id('h_search-input'), 10000));
-        americanasSearchBar.sendKeys("Headphones", Key.ENTER);
+
+        // Define here the tag that we want to use. Later, iterate through all tags
+        americanasSearchBar.sendKeys(searchTags.MainTag, Key.ENTER);
 
         setTimeout(() => {
             console.log("Continuing ..");
@@ -61,5 +65,6 @@ class TCC {
 
 // Debug Section
 const robot = new TCC();
-let result = robot.GetIniConfig();
-console.log(result);
+var searchTags = robot.GetIniConfig(); // Fully working
+
+robot.AmericanasHandler(searchTags);
