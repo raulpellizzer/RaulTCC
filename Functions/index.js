@@ -24,8 +24,8 @@ class TCC {
         driver.manage().window().maximize();    
         driver.findElement(By.name("q")).sendKeys("Americanas.com.br", Key.ENTER);
 
-        let initialLink = driver.wait(until.elementLocated(By.className('LC20lb'), 10000));
-        initialLink.click();
+        let americanasLink = driver.wait(until.elementLocated(By.className('LC20lb'), 10000));
+        americanasLink.click();
 
         let americanasSearchBar = driver.wait(until.elementLocated(By.id('h_search-input'), 10000));
 
