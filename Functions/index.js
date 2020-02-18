@@ -34,59 +34,32 @@ class TCC {
     }
 
     /**
-     * Asyncronous function
+     * Retrieves all settings from .ini file
      * 
-     * @param {String} filePath the full file path
-     * @param {String} encod the encoding of the output
-     * @returns {String} data
+     * @returns {Object}
      */
-    // GetFileContent(filePath, encod)
-    // {
-    //     let fs = require('fs');
-    //     fs.readFileSy(filePath, encod, (err, data) => {
-    //         if (err) throw err
-    //         return data; // USE CALLBACK/PROMISE INSTEAD
-    //     });
-    // }
-
-    /**
-     * Syncronous function
-     * 
-     * @param {String} filePath the full file path
-     * @param {String} encod the encoding of the output
-     * @returns {String} data
-     */
-    GetFileContentSync(filePath, encod)
-    {
-        let fs = require('fs');
-        let data = fs.readFileSync(filePath, encod);
-
-        return data;
-    }
-
-    /**
-     * Retrieves the key 'iniSectionTag' from the section 'iniSection'
-     * 
-     * @param {String} iniSection - Section of .ini file
-     * @param {String} iniSectionTag - Key of that section in .ini file
-     * @returns {void}
-     */
-    GetIniConfig(iniSection, iniSectionTag)
+    GetIniConfig()
     {
         var fs  = require('fs');
         var ini = require('ini');
-
         var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
-        let result = config[iniSection][iniSectionTag];
+        let result = {MainTag: config['TAGS_PRODUCT']['MainTag'],
+                    Tag1: config['TAGS_PRODUCT']['Tag1'],
+                    Tag2: config['TAGS_PRODUCT']['Tag2'],
+                    Tag3: config['TAGS_PRODUCT']['Tag3'],
+                    Tag4: config['TAGS_PRODUCT']['Tag4'],
+                    Tag5: config['TAGS_PRODUCT']['Tag5'],
+                    Tag6: config['TAGS_PRODUCT']['Tag6'],
+                    Tag7: config['TAGS_PRODUCT']['Tag7'],
+                    Tag8: config['TAGS_PRODUCT']['Tag8'],
+                    Tag9: config['TAGS_PRODUCT']['Tag9']};
+        
         return result;
     }
 }
 
 // Debug Section
 const robot = new TCC();
-let result = robot.GetIniConfig('TAGS_PRODUCT', 'MainName'); // We have to find a way to make this dinamic, so that this doesnt get hard set in the code.
-
-console.log('Done:')
+let result = robot.GetIniConfig();
 console.log(result);
-
