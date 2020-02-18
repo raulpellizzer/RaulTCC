@@ -64,6 +64,13 @@ class TCC {
         return data;
     }
 
+    /**
+     * Retrieves the key 'iniSectionTag' from the section 'iniSection'
+     * 
+     * @param {String} iniSection - Section of .ini file
+     * @param {String} iniSectionTag - Key of that section in .ini file
+     * @returns {void}
+     */
     GetIniConfig(iniSection, iniSectionTag)
     {
         var fs  = require('fs');
@@ -71,15 +78,15 @@ class TCC {
 
         var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
-        // Retrieves the key 'iniSectionTag' from the section 'iniSection'
         let result = config[iniSection][iniSectionTag];
-
-        console.log(result);
+        return result;
     }
 }
 
 // Debug Section
 const robot = new TCC();
-robot.GetIniConfig('TAGS_PRODUCT', 'Tags'); // We have to find a way to make this dinamic, so that this doesnt get hard set in the code.
+let result = robot.GetIniConfig('TAGS_PRODUCT', 'MainName'); // We have to find a way to make this dinamic, so that this doesnt get hard set in the code.
 
+console.log('Done:')
+console.log(result);
 
