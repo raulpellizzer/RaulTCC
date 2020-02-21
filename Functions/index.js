@@ -16,13 +16,13 @@ class TCC {
      */
     AmericanasHandler(searchTags)
     {
-        const {Builder, By, Key, util, until} = require("selenium-webdriver");
-        const chrome = require("selenium-webdriver/chrome");
+        const {Builder, By, Key, util, until} = require('selenium-webdriver');
+        const chrome = require('selenium-webdriver/chrome');
         const driver = new Builder().forBrowser("chrome").build();
 
-        driver.get("https://google.com.br");
+        driver.get('https://google.com.br');
         driver.manage().window().maximize();    
-        driver.findElement(By.name("q")).sendKeys("Americanas.com.br", Key.ENTER);
+        driver.findElement(By.name('q')).sendKeys('Americanas.com.br', Key.ENTER);
 
         let americanasLink = driver.wait(until.elementLocated(By.className('LC20lb'), 10000));
         americanasLink.click();
@@ -32,10 +32,18 @@ class TCC {
         // Define here the tag that we want to use. Later, iterate through all tags
         americanasSearchBar.sendKeys(searchTags.MainTag, Key.ENTER);
 
+        // Study how to correctly implement Promises and how to handle them
         setTimeout(() => {
-            console.log("Continuing ..");
-        }, 45000);
+            try {
+                let totalElements = 0;
+                totalElements = driver.findElements(By.css("div[class*='product-card-photo']").length); // Works? Perform tests
+                console.log(totalElements);
+                
+            } catch (e) {
+                console.log(e);
+            }
 
+        }, 45000);
 
     }
 
