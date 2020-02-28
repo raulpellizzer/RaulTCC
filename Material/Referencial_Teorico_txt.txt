@@ -1,0 +1,46 @@
+Referencial Teórico
+
+Apresentaremos nesta seção todo o material consultado, o qual serviu de base para a produção deste trabalho de conclusão de curso. 
+
+Primeiramente, gostaria de introduzir a tecnologia utilizada para a produção do software. Neste trabalho utilizaremos Javascript com Node.Js e framework Selenium.
+
+
+Javascript
+
+Javascript é uma linguagem de programação poderosíssima, que nos fornece ferramentas para operar tanto no front-end (“Telas da aplicação, para visível do software”) quanto no back-end (o que ocorre por baixo dos panos). Neste trabalho farei referências à três autores: Jhon Resig, Bear Bibeault e Josip Maras. Todos eles tiveram e possuem, até hoje, papéis muito importantes no ramo da programação Javascript. Utilizaremos neste trabalho, como embasamento teórico, a obra: 
+
+? Secrets of the Javascript Ninja, 2ºnd edition
+Esta obra foi escrita pelos autores acima citados.
+
+Além disso, utilizaremos de base o livro:
+? Pro Javascript Techniques, de Jhon Resig.
+
+Além disso, no que diz respeito à linguagem de programação Javascript, utilizaremos os seguintes materiais on-line:
+
+? https://www.w3schools.com/js/ - Tutorial de programação Javascript.
+? https://pt.stackoverflow.com/ - Fórum de discussões
+
+
+
+
+Node.Js
+
+Para o estudo do ambiente Node.Js, criado em 2009 pelo desenvolvedor Ryan Dahl, utilizaremos a seguinte obra:
+
+? Aprendendo Node – Usando Javascript no Servidor, por Shelley Powers
+
+Este livro nos apresenta, de forma simplificada, como podemos criar pequenas rotinas e executar nossos primeiros códigos no ambiente Node.Js.
+
+Além disso utilizaremos o site oficial do Node.Js:
+ 
+? https://nodejs.org/en/ - Node.Js
+? https://nodejs.org/en/docs/ - Documentation for Node.Js
+? https://www.w3schools.com/nodejs/ - Tutorial para Node.Js
+
+
+
+Selenium
+
+Selenium é um framework utilizado para automatização de tarefas e rotinas, como testes em sistemas web. Para este trabalho nos basearemos nas obras:
+
+? Automatizando Testes de Software Com Selenium – Manual prático
