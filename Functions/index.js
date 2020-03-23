@@ -10,40 +10,24 @@ class TCC {
     }
 
     /**
-     * Handles the browser and the americanas website
+     * Handles the browser and the buscape website
      * 
      * @param {String} searchTags the tags that the robot will search for
      */
-    AmericanasHandler(searchTags)
+    BuscaPeHandler(searchTags)
     {
         const {Builder, By, Key, util, until} = require('selenium-webdriver');
         const chrome = require('selenium-webdriver/chrome');
         const driver = new Builder().forBrowser("chrome").build();
 
-        driver.get('https://google.com.br');
-        driver.manage().window().maximize();    
-        driver.findElement(By.name('q')).sendKeys('Americanas.com.br', Key.ENTER);
+        driver.get('https://buscape.com.br');
+        driver.manage().window().maximize();
+        driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
-        let americanasLink = driver.wait(until.elementLocated(By.className('LC20lb'), 10000));
-        americanasLink.click();
+        let buscaPeSearchBar = driver.wait(until.elementLocated(By.name('q'), 10000));
+        buscaPeSearchBar.sendKeys(searchTags.MainTag, Key.ENTER);
 
-        let americanasSearchBar = driver.wait(until.elementLocated(By.id('h_search-input'), 10000));
-
-        // Define here the tag that we want to use. Later, iterate through all tags
-        americanasSearchBar.sendKeys(searchTags.MainTag, Key.ENTER);
-
-        // Study how to correctly implement Promises and how to handle them
-        setTimeout(() => {
-            try {
-                let totalElements = 0;
-                totalElements = driver.findElements(By.css("div[class*='product-card-photo']").length); // Works? Perform tests
-                console.log(totalElements);
-                
-            } catch (e) {
-                console.log(e);
-            }
-
-        }, 45000);
+        
     }
 
     /**
@@ -74,6 +58,5 @@ class TCC {
 
 // Debug Section
 const robot = new TCC();
-var searchTags = robot.GetIniConfig(); // Fully working
-
-robot.AmericanasHandler(searchTags);
+var searchTags = robot.GetIniConfig();
+robot.BuscaPeHandler(searchTags);
