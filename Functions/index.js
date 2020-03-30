@@ -24,10 +24,17 @@ class TCC {
         driver.manage().window().maximize();
         driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
-        let buscaPeSearchBar = driver.wait(until.elementLocated(By.name('q'), 10000));
+        let buscaPeSearchBar = driver.wait(until.elementLocated(By.name('q'), 10000));  
         buscaPeSearchBar.sendKeys(searchTags.MainTag, Key.ENTER);
 
+        driver.wait(until.elementsLocated(By.css("span[class='mainValue']")));
+        let elements = driver.findElements({css:"span[class*='mainValue']"});
         
+        
+        
+
+
+
     }
 
     /**
