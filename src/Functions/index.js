@@ -15,7 +15,7 @@ class Main {
 
     async StartExecution() {
         try {
-            main.buscaPe.ChromeDriverStartUp(); 
+            this.buscaPe.ChromeDriverStartUp(); 
             this.buscaPe.NavigateToBuscaPe();
             this.buscaPe.NavigateToBuscaPe();
             this.buscaPe.MaximizeWindow();
@@ -28,8 +28,6 @@ class Main {
         } catch (error) {
             console.log(error);
         }
-        
-        
     }
 
 }
