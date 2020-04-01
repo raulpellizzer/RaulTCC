@@ -1,4 +1,5 @@
 const ChromeDriver = require('./ChromeDriver');
+const constants = require('./consts');
 
 class BuscaPe {
 
@@ -27,8 +28,9 @@ class BuscaPe {
         this.driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    SearchItem() {
-
+    SearchItem(searchTags) {
+        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 10000));  
+        buscaPeSearchBar.sendKeys(searchTags.MainTag, constants.Key.ENTER);
     }
     
 }

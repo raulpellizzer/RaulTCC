@@ -14,13 +14,20 @@ class Main {
     }
 
     async StartExecution() {
-        main.buscaPe.ChromeDriverStartUp(); 
-        this.buscaPe.NavigateToBuscaPe();
-        this.buscaPe.MaximizeWindow();
-        this.buscaPe.ScrollToBottom();
+        try {
+            main.buscaPe.ChromeDriverStartUp(); 
+            this.buscaPe.NavigateToBuscaPe();
+            this.buscaPe.NavigateToBuscaPe();
+            this.buscaPe.MaximizeWindow();
+            this.buscaPe.ScrollToBottom();
 
-        let searchTags = this.iniHandler.GetIniConfig();
-        console.log(searchTags);
+            let searchTags = await this.iniHandler.GetIniConfig();
+            this.buscaPe.SearchItem(searchTags);
+
+
+        } catch (error) {
+            console.log(error);
+        }
         
         
     }
