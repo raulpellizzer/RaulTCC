@@ -30,10 +30,9 @@ class IniHandler {
                     Tag7: config['TAGS_PRODUCT']['Tag7'],
                     Tag8: config['TAGS_PRODUCT']['Tag8'],
                     Tag9: config['TAGS_PRODUCT']['Tag9']};
-        
+
         return result;
     }
-
 }
 
 module.exports = IniHandler;

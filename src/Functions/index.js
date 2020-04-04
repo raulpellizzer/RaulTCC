@@ -16,14 +16,18 @@ class Main {
     async StartExecution() {
         try {
             this.buscaPe.ChromeDriverStartUp(); 
-            this.buscaPe.NavigateToBuscaPe();
-            this.buscaPe.NavigateToBuscaPe();
-            this.buscaPe.MaximizeWindow();
-            this.buscaPe.ScrollToBottom();
+            await this.buscaPe.NavigateToBuscaPe();
+            // await this.buscaPe.MaximizeWindow();
+            await this.buscaPe.ScrollToBottom();
 
             let searchTags = await this.iniHandler.GetIniConfig();
-            this.buscaPe.SearchItem(searchTags);
+            await this.buscaPe.QueryItem(searchTags);
+            let eleFound = await this.buscaPe.GetProducts();
+            console.log(eleFound.length);
+            
+            // await eleFound[0].click(); // Click on the First element!
 
+            
 
         } catch (error) {
             console.log(error);
