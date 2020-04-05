@@ -32,30 +32,35 @@ class BuscaPe {
     QueryItem(searchTags) {
         let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 10000));  
         buscaPeSearchBar.sendKeys(searchTags.MainTag, constants.Key.ENTER);
-        return this.driver;
-        
+        return this.driver;   
     }
 
     async GetProducts() {
-        // WORKING 
-        // let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'), 15000));  
-        // element = await this.driver.findElements(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'));
-
         let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));  
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
-
         return element;
     }
 
 
     async GetProductData(element) {
-        let elementPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span > span.mainValue'));
-        // console.log("Teste preco: " + await elementPrice[0].getText());
-        elementPrice = await elementPrice[0].getText();
-        console.log("ElementPrice: " + elementPrice);
+        let productPrice = "";
+        let mainValue = "";
+        let centsValue = "";
+        let productName = "";
 
+        productPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span'));
+        mainValue = await productPrice[0].findElements(constants.By.css('span.mainValue'));
+        mainValue = await mainValue[0].getText();
 
+        centsValue = await productPrice[0].findElements(constants.By.css('span.centsValue'));
+        centsValue = await centsValue[0].getText();
+        productPrice = mainValue + centsValue;
 
+        productName = await element.findElements(constants.By.css("a[class='name']"));
+        productName = await productName[0].getText();
+
+        console.log("Produto: " + productName + " - " + productPrice);
+        
     }
     
 }

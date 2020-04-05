@@ -29,7 +29,9 @@ class Main {
             this.totalProducts = this.products.length
             await this.buscaPe.GetProductData(this.products[0]);
             
-
+            this.products.forEach(element => {
+                this.buscaPe.GetProductData(element);
+            });
             
 
         } catch (error) {
