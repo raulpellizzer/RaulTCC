@@ -13,9 +13,14 @@ class Main {
         this.iniHandler = new IniHandler();
         this.searchTags = "";
         this.products   = "";
-        this.data       = [];
+        this.data       = []; // Infos about each product (Name and Price)
     }
 
+    /**
+     * Main execution block
+     * 
+     * @returns
+     */
     async StartExecution() {
         try {
             this.buscaPe.ChromeDriverStartUp(); 

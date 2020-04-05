@@ -9,16 +9,16 @@ class IniHandler {
         
     }
 
-    /**
+    /** 
      * Retrieves all settings from .ini file
      * 
      * @returns {Object}
      */
     GetIniConfig()
     {
-        var fs  = require('fs');
-        var ini = require('ini');
-        var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+        let fs  = require('fs');
+        let ini = require('ini');
+        let config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
         let result = {MainTag: config['TAGS_PRODUCT']['MainTag'],
                     Tag1: config['TAGS_PRODUCT']['Tag1'],

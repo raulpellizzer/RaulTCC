@@ -11,6 +11,11 @@ class ChromeDriver {
         
     }
 
+    /**
+     * Builds the driver for google chrome
+     * 
+     * @returns {WebDriver} WebDriver for Google Chrome
+     */
     DriverStartUp() {
         let driver = new constants.Builder().forBrowser("chrome").build();
         return driver;
