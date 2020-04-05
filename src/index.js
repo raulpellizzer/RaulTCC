@@ -1,5 +1,6 @@
-const BuscaPe = require('./BuscaPe');
-const IniHandler = require('./IniHandler');
+const BuscaPe = require('./Functions/BuscaPe');
+const IniHandler = require('./Functions/IniHandler');
+const Report = require('./Functions/Report');
 
 class Main {
 
@@ -11,9 +12,11 @@ class Main {
     constructor() {
         this.buscaPe    = new BuscaPe();
         this.iniHandler = new IniHandler();
+        this.report     = new Report();
+        this.data       = []; // Infos about each product (Name and Price)
         this.searchTags = "";
         this.products   = "";
-        this.data       = []; // Infos about each product (Name and Price)
+        this.reportPath = "";
     }
 
     /**
@@ -23,6 +26,9 @@ class Main {
      */
     async StartExecution() {
         try {
+            this.report.SetReportPath(__dirname + "\\data\\Search.txt");
+            this.reportPath = this.report.GetReportPath();
+
             this.buscaPe.ChromeDriverStartUp(); 
             await this.buscaPe.NavigateToBuscaPe();
             // await this.buscaPe.MaximizeWindow();
@@ -32,16 +38,15 @@ class Main {
             await this.buscaPe.QueryItem(this.searchTags);
             this.products = await this.buscaPe.GetProducts(); // Returns all elements, raw data
 
-            for (let index = 0; index < this.products.length; index++) {
+            for (let index = 0; index < this.products.length; index++)
                 this.data.push(await this.buscaPe.GetProductData(this.products[index]));
-            }
 
             for (let index = 0; index < this.data.length; index++) {
-                console.log(this.data[index].productName + " - " + this.data[index].productPrice);   
+                let dataToAppend = this.data[index].productName + " - " + this.data[index].productPrice;
+                this.report.RegisterDataInFile(this.reportPath, dataToAppend);
             }
 
-            console.log("Fim!");
-            
+            console.log("Done!");
 
         } catch (error) {
             console.log(error);
