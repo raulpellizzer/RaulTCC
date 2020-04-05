@@ -41,7 +41,6 @@ class BuscaPe {
         return element;
     }
 
-
     async GetProductData(element) {
         try {
             let productPrice  = "";
@@ -49,11 +48,14 @@ class BuscaPe {
 
             productPrice = await this.GetProductPrice(element);
             productName = await this.GetProductName(element);
-            console.log("Produto: " + productName + " - " + productPrice);
 
+            let data = {productName, productPrice};
+            
+            return data;
         } catch (error) {
             console.log(error);
         }
+
     }
 
     async GetProductName(element) {
