@@ -43,10 +43,32 @@ class BuscaPe {
 
 
     async GetProductData(element) {
-        let productPrice = "";
-        let mainValue = "";
-        let centsValue = "";
+        try {
+            let productPrice  = "";
+            let productName   = "";
+
+            productPrice = await this.GetProductPrice(element);
+            productName = await this.GetProductName(element);
+            console.log("Produto: " + productName + " - " + productPrice);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async GetProductName(element) {
         let productName = "";
+
+        productName = await element.findElements(constants.By.css("a[class='name']"));
+        productName = await productName[0].getText();
+
+        return productName;
+    }
+
+    async GetProductPrice(element) {
+        let productPrice  = "";
+        let mainValue     = "";
+        let centsValue    = "";
 
         productPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span'));
         mainValue = await productPrice[0].findElements(constants.By.css('span.mainValue'));
@@ -56,11 +78,7 @@ class BuscaPe {
         centsValue = await centsValue[0].getText();
         productPrice = mainValue + centsValue;
 
-        productName = await element.findElements(constants.By.css("a[class='name']"));
-        productName = await productName[0].getText();
-
-        console.log("Produto: " + productName + " - " + productPrice);
-        
+        return productPrice;
     }
     
 }
