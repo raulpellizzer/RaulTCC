@@ -42,7 +42,7 @@ class Main {
                 this.data.push(await this.buscaPe.GetProductData(this.products[index]));
 
             for (let index = 0; index < this.data.length; index++) {
-                let dataToAppend = this.data[index].productName + " - " + this.data[index].productPrice;
+                let dataToAppend = this.data[index].productName + " - " + this.data[index].productPrice + "\n";
                 this.report.RegisterDataInFile(this.reportPath, dataToAppend);
             }
 
