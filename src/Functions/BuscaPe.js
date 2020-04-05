@@ -37,36 +37,24 @@ class BuscaPe {
     }
 
     async GetProducts() {
-        let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'), 15000));  
-        element = await this.driver.findElements(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'));
+        // WORKING 
+        // let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'), 15000));  
+        // element = await this.driver.findElements(constants.By.css('div.cardBody > div.cardInfo > div > div > a.price > span > span.mainValue'));
+
+        let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));  
+        element = await this.driver.findElements(constants.By.css('div.cardBody'));
 
         return element;
-
-        // let elementPromise = new Promise ((resolve, reject) => {
-        //     var element = this.driver.wait(constants.until.elementLocated(constants.By.css('h1'), 10000));
-        //     element = this.driver.findElements(constants.By.css('h1'));
-            
-        //     if (element.length) {
-        //         resolve(element);
-        //     } else
-        //         reject("Zero elements found");
-        // });
-
-        // elementPromise
-        //     .then((element) => {
-        //         console.log("No then: " + element.length);
-        //         // console.log("Text: " + element.getText);
-        //         return element;
-        //     })
-
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
     }
 
-    async Test() {
-        let element = await document.getElementById("header");
-        console.log("Total: " + element.length);
+
+    async GetProductData(element) {
+        let elementPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span > span.mainValue'));
+        // console.log("Teste preco: " + await elementPrice[0].getText());
+        elementPrice = await elementPrice[0].getText();
+        console.log("ElementPrice: " + elementPrice);
+
+
 
     }
     

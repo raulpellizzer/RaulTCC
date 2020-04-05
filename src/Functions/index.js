@@ -11,6 +11,9 @@ class Main {
     constructor() {
         this.buscaPe = new BuscaPe();
         this.iniHandler = new IniHandler();
+        this.searchTags     = "";
+        this.products       = "";
+        this.totalProducts  = "";
     }
 
     async StartExecution() {
@@ -19,13 +22,13 @@ class Main {
             await this.buscaPe.NavigateToBuscaPe();
             // await this.buscaPe.MaximizeWindow();
             await this.buscaPe.ScrollToBottom();
+            this.searchTags = await this.iniHandler.GetIniConfig();
 
-            let searchTags = await this.iniHandler.GetIniConfig();
-            await this.buscaPe.QueryItem(searchTags);
-            let eleFound = await this.buscaPe.GetProducts();
-            console.log(eleFound.length);
+            await this.buscaPe.QueryItem(this.searchTags);
+            this.products = await this.buscaPe.GetProducts();
+            this.totalProducts = this.products.length
+            await this.buscaPe.GetProductData(this.products[0]);
             
-            // await eleFound[0].click(); // Click on the First element!
 
             
 
