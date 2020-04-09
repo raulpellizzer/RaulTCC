@@ -120,6 +120,7 @@ class BuscaPe {
             prices.push(await elements[index].getText());
         }
 
+        prices = prices.sort();
         return prices;
     }
 
