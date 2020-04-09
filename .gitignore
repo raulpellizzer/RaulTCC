@@ -1,6 +1,8 @@
 /node_modules/
 /Books/
 /src/data/
+/src/test.js
+/src/debug.log
 
 /*.log
 /*.exe

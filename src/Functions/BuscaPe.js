@@ -27,11 +27,19 @@ class BuscaPe {
         await this.driver.get('https://buscape.com.br');
     }
 
+    async NavigateToPreviousPage() {
+        await this.driver.navigate().back();
+    }
+
     /**
      * Maximizes current window of the webdriver
      */
     async MaximizeWindow() {
         await this.driver.manage().window().maximize();
+    }
+
+    async DriverSleep(miliSeconds) {
+        await this.driver.sleep(miliSeconds);
     }
 
     /**
@@ -58,8 +66,8 @@ class BuscaPe {
      * @returns {WebElement} A web element from buscape
      */
     async GetProducts() {
-        let element = await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));  
-        element = await this.driver.findElements(constants.By.css('div.cardBody'));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody > a'), 15000));
+        let element = await this.driver.findElements(constants.By.css('div.cardBody > a'));
         return element;
     }
 
@@ -69,17 +77,15 @@ class BuscaPe {
      * @param element - WebElement
      * @returns {Object} Object containing the product name and its main price, in buscape first page
      */
-    async GetProductData(element) {
+    async GetProductData() {
         try {
-            let productPrice  = "";
-            let productName   = "";
+            let productName = await this.GetProductName();
+            let productPrices = await this.GetProductPrices();
 
-            productPrice = await this.GetProductPrice(element);
-            productName = await this.GetProductName(element);
-
-            let data = {productName, productPrice};
+            let data = {productName, productPrices};
 
             return data;
+
         } catch (error) {
             console.log(error);
         }
@@ -88,13 +94,13 @@ class BuscaPe {
     /**
      * Retrieves the name of an element in buscape first page
      * 
-     * @param element - WebElement
      * @returns {String} Product name
      */
-    async GetProductName(element) {
+    async GetProductName() {
         let productName = "";
 
-        productName = await element.findElements(constants.By.css("a[class='name']"));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css("h1[class='product-name'] > span"), 15000));
+        productName = await this.driver.findElements(constants.By.css("h1[class='product-name'] > span"));
         productName = await productName[0].getText();
 
         return productName;
@@ -106,22 +112,17 @@ class BuscaPe {
      * @param element - WebElement
      * @returns {String} Product price
      */
-    async GetProductPrice(element) {
-        let productPrice  = "";
-        let mainValue     = "";
-        let centsValue    = "";
+    async GetProductPrices() {
+        let prices = [];
+        let elements = await this.driver.findElements(constants.By.css("span.price > span.price__total"));
 
-        productPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span'));
-        mainValue = await productPrice[0].findElements(constants.By.css('span.mainValue'));
-        mainValue = await mainValue[0].getText();
+        for (let index = 0; index < elements.length; index++) {
+            prices.push(await elements[index].getText());
+        }
 
-        centsValue = await productPrice[0].findElements(constants.By.css('span.centsValue'));
-        centsValue = await centsValue[0].getText();
-        productPrice = mainValue + centsValue;
-
-        return productPrice;
+        return prices;
     }
-    
+
 }
 
 module.exports = BuscaPe;
