@@ -13,7 +13,7 @@ class Main {
         this.buscaPe      = new BuscaPe();
         this.iniHandler   = new IniHandler();
         this.report       = new Report();
-        this.buscaPeData  = []; // Infos about each product (Name and Price)
+        this.buscaPeData  = [];
         this.searchTags   = "";
         this.products     = "";
         this.reportPath   = "";
@@ -36,23 +36,32 @@ class Main {
             this.searchTags = await this.iniHandler.GetIniConfig();
 
             await this.buscaPe.QueryItem(this.searchTags);
-            this.products = await this.buscaPe.GetProducts(); // Returns all elements, raw data
+            this.products = await this.buscaPe.GetProducts();
 
             for (let index = 0; index < this.products.length; index++) {
+                await this.buscaPe.DriverSleep(200);
                 this.products = await this.buscaPe.GetProducts();
                 let element = this.products[index];
-                await this.buscaPe.DriverSleep(200);
-                await element.click();
-                let productData = await this.buscaPe.GetProductData();
-                this.buscaPeData.push(productData);
-                await this.buscaPe.NavigateToPreviousPage();
-                await this.buscaPe.DriverSleep(100);
+
+                if (await element.getText() ==  "Ver preços") {
+                    await element.click();
+
+                    let productData = await this.buscaPe.GetProductData(false, index);
+                    this.buscaPeData.push(productData);
+
+                    await this.buscaPe.NavigateToPreviousPage();
+                    await this.buscaPe.DriverSleep(100);
+                } else {
+                    let productData = await this.buscaPe.GetProductData(true, index);
+                    this.buscaPeData.push(productData);
+                }
             }
 
             for (let index = 0; index < this.buscaPeData.length; index++) { 
                 this.report.RegisterDataInFile(this.reportPath, this.buscaPeData[index].productName + "\n");
-
-                for (let innerIndex = 0; innerIndex < this.buscaPeData[innerIndex].productPrices.length; innerIndex++) {
+                for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
+                    if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
+                        continue;
                     this.report.RegisterDataInFile(this.reportPath, this.buscaPeData[index].productPrices[innerIndex] + "\n");
                 }
                 this.report.RegisterDataInFile(this.reportPath, "\n\n");

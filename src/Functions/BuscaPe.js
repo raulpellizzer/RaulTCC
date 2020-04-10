@@ -57,7 +57,6 @@ class BuscaPe {
     QueryItem(searchTags) {
         let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 10000));  
         buscaPeSearchBar.sendKeys(searchTags.MainTag, constants.Key.ENTER);
-        return this.driver;   
     }
 
     /**
@@ -66,23 +65,32 @@ class BuscaPe {
      * @returns {WebElement} A web element from buscape
      */
     async GetProducts() {
-        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody > a'), 15000));
-        let element = await this.driver.findElements(constants.By.css('div.cardBody > a'));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"), 15000));
+        let element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
+
         return element;
     }
 
     /**
      * Retrieves data from an element
      * 
-     * @param element - WebElement
+     * @param singleStore - boolean - Indicates if this product has only one seller
+     * @param index - integer - the index of the outter loop
      * @returns {Object} Object containing the product name and its main price, in buscape first page
      */
-    async GetProductData() {
+    async GetProductData(singleStore, index) {
         try {
-            let productName = await this.GetProductName();
-            let productPrices = await this.GetProductPrices();
+            let data = {};
 
-            let data = {productName, productPrices};
+            if (singleStore) {
+                let productName = await this.GetSingleStoreProductName(index);
+                let productPrices = await this.GetSingleStoreProductPrice(index);
+                data = {productName, productPrices};
+            } else {
+                let productName = await this.GetProductName();
+                let productPrices = await this.GetProductPrices();
+                data = {productName, productPrices};
+            }
 
             return data;
 
@@ -107,23 +115,68 @@ class BuscaPe {
     }
 
     /**
-     * Retrieves the price of an element in buscape first page
-     * 
-     * @param element - WebElement
-     * @returns {String} Product price
+     * Retrieves all prices for that specific product
+     *
+     * @returns {Array} Product prices
      */
     async GetProductPrices() {
         let prices = [];
         let elements = await this.driver.findElements(constants.By.css("span.price > span.price__total"));
 
-        for (let index = 0; index < elements.length; index++) {
+        for (let index = 0; index < elements.length; index++)
             prices.push(await elements[index].getText());
-        }
 
         prices = prices.sort();
         return prices;
     }
 
+    /**
+     * Retrieves the name of a product that has only one seller (not multiple stores)
+     * 
+     * @param index - integer
+     * @returns {Object} Object containing the product name and its main price, in buscape first page
+     */
+    async GetSingleStoreProductName(index) {
+        let productName = "";
+        let element     = "";
+    
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));
+        element = await this.driver.findElements(constants.By.css('div.cardBody'));
+        element = element[index];
+        productName = await element.findElements(constants.By.css("a[class='name']"));
+        productName = await productName[0].getText();
+    
+        return productName;
+    }
+    
+    /**
+     * Retrieves the price of a product that has only one seller (not multiple stores)
+     * 
+     * @param index - integer
+     * @returns {Array} array containing the product name and its main price, in buscape first page
+     */
+    async GetSingleStoreProductPrice(index) {
+        let productPrice  = "";
+        let mainValue     = "";
+        let centsValue    = "";
+        let element       = "";
+        let price         = [];
+
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));
+        element = await this.driver.findElements(constants.By.css('div.cardBody'));
+        element = element[index];
+
+        productPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span'));
+        mainValue    = await productPrice[0].findElements(constants.By.css('span.mainValue'));
+        mainValue    = await mainValue[0].getText();
+    
+        centsValue   = await productPrice[0].findElements(constants.By.css('span.centsValue'));
+        centsValue   = await centsValue[0].getText();
+        productPrice = mainValue + centsValue;
+        price.push(productPrice);
+    
+        return price;
+    }
 }
 
 module.exports = BuscaPe;
