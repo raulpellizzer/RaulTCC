@@ -1,3 +1,6 @@
+const fs  = require('fs');
+const ini = require('ini');
+
 class IniHandler {
 
     /**
@@ -16,10 +19,7 @@ class IniHandler {
      */
     GetIniConfig()
     {
-        let fs  = require('fs');
-        let ini = require('ini');
         let config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
-
         let result = {MainTag: config['TAGS_PRODUCT']['MainTag'],
                       Pages: config['TAGS_PRODUCT']['PagesToSearch']
                       };
