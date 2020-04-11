@@ -169,6 +169,7 @@ class BuscaPe {
         let mainValue     = "";
         let centsValue    = "";
         let element       = "";
+        let store         = "";
         let price         = [];
 
         await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));
@@ -181,7 +182,11 @@ class BuscaPe {
     
         centsValue   = await productPrice[0].findElements(constants.By.css('span.centsValue'));
         centsValue   = await centsValue[0].getText();
-        productPrice = mainValue + centsValue;
+
+        store = await element.findElements(constants.By.css("div[class='cardFooter'] > a"));
+        store = await store[0].getText();
+
+        productPrice = store + ": " +  mainValue + centsValue;
         price.push(productPrice);
     
         return price;

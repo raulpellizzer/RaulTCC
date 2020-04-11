@@ -83,7 +83,7 @@ class Main {
                 await this.buscaPe.NavigateToPreviousPage();
                 await this.buscaPe.DriverSleep(100);
             } else 
-                productData = await this.buscaPe.GetProductData(true, in6dex);
+                productData = await this.buscaPe.GetProductData(true, index);
             
             this.buscaPeData.push(productData);
         }
