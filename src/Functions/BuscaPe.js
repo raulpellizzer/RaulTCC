@@ -135,7 +135,7 @@ class BuscaPe {
             data.push(finalData);
         }
 
-        // data = data.sort(); // RE-IMPLEMENTAR
+        data = data.sort(); // RE-IMPLEMENTAR:
         return data;
     }
 

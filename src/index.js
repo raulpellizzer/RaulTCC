@@ -79,9 +79,7 @@ class Main {
 
             if (await element.getText() ==  "Ver preços") {
                 await element.click();
-
                 productData = await this.buscaPe.GetProductData(false, index);
-
                 await this.buscaPe.NavigateToPreviousPage();
                 await this.buscaPe.DriverSleep(100);
             } else 
