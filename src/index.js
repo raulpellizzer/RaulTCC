@@ -70,6 +70,8 @@ class Main {
      * @returns
      */
     async RetrieveData() {
+        let productData = "";
+
         for (let index = 0; index < this.products.length; index++) {
             await this.buscaPe.DriverSleep(200);
             this.products = await this.buscaPe.GetProducts();
@@ -78,15 +80,14 @@ class Main {
             if (await element.getText() ==  "Ver preços") {
                 await element.click();
 
-                let productData = await this.buscaPe.GetProductData(false, index);
-                this.buscaPeData.push(productData);
+                productData = await this.buscaPe.GetProductData(false, index);
 
                 await this.buscaPe.NavigateToPreviousPage();
                 await this.buscaPe.DriverSleep(100);
-            } else {
-                let productData = await this.buscaPe.GetProductData(true, in6dex);
-                this.buscaPeData.push(productData);
-            }
+            } else 
+                productData = await this.buscaPe.GetProductData(true, in6dex);
+            
+            this.buscaPeData.push(productData);
         }
     }
 

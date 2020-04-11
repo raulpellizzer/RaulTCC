@@ -120,14 +120,23 @@ class BuscaPe {
      * @returns {Array} Product prices
      */
     async GetProductPrices() {
-        let prices = [];
-        let elements = await this.driver.findElements(constants.By.css("span.price > span.price__total"));
+        let data      = [];
+        let prices    = "";
+        let store     = "";
+        let finalData = "";
 
-        for (let index = 0; index < elements.length; index++)
-            prices.push(await elements[index].getText());
+        let elements = await this.driver.findElements(constants.By.css("ul[class='offers-list'] > li"));
 
-        prices = prices.sort();
-        return prices;
+        for (let index = 0; index < elements.length; index++) {
+            prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
+            store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a > img'));
+            finalData = await store[0].getAttribute('alt') + ": " + await prices[0].getText()
+
+            data.push(finalData);
+        }
+
+        // data = data.sort(); // RE-IMPLEMENTAR
+        return data;
     }
 
     /**
