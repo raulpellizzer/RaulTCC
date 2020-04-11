@@ -27,8 +27,19 @@ class BuscaPe {
         await this.driver.get('https://buscape.com.br');
     }
 
+    /**
+     * Navigate to previous page
+     */
     async NavigateToPreviousPage() {
         await this.driver.navigate().back();
+    }
+
+    /**
+     * Navigates to next page
+     */
+    async NavigateToNextPage() {
+        let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
+        await btnNext[0].click();
     }
 
     /**
@@ -56,7 +67,7 @@ class BuscaPe {
      */
     QueryItem(searchTags) {
         let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 10000));  
-        buscaPeSearchBar.sendKeys(searchTags.MainTag, constants.Key.ENTER);
+        buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
     }
 
     /**

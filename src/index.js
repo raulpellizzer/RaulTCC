@@ -14,7 +14,7 @@ class Main {
         this.iniHandler   = new IniHandler();
         this.report       = new Report();
         this.buscaPeData  = [];
-        this.searchTags   = "";
+        this.configSetup  = "";
         this.products     = "";
         this.reportPath   = "";
     }
@@ -27,8 +27,16 @@ class Main {
     async MainExecution() {
         try {
             await this.Initialize();
-            await this.QueryAndGetProducts();
-            await this.RetrieveData();
+            await this.QueryItem();
+
+            for (let index = 0; index < this.configSetup.Pages; index++) {
+                console.log("Reading page: " + (index + 1));
+                await this.GetProducts();
+                await this.RetrieveData();
+                await this.GoToNextPage();
+                await this.buscaPe.DriverSleep(5000);
+            }
+
             await this.GenerateTXTReport();
 
             console.log("Done!");
@@ -51,16 +59,24 @@ class Main {
         await this.buscaPe.NavigateToBuscaPe();
         await this.buscaPe.MaximizeWindow();
         await this.buscaPe.ScrollToBottom();
-        this.searchTags = await this.iniHandler.GetIniConfig();
+        this.configSetup = await this.iniHandler.GetIniConfig();
     }
 
     /**
-     * Queries the product in BuscaPe and retrieve main data
+     * Searchs for the item in buscape
      * 
      * @returns
      */
-    async QueryAndGetProducts() {
-        this.buscaPe.QueryItem(this.searchTags);
+    async QueryItem() {
+        this.buscaPe.QueryItem(this.configSetup.MainTag);
+    }
+
+    /**
+     * Retrieve main data
+     * 
+     * @returns
+     */
+    async GetProducts() {
         this.products = await this.buscaPe.GetProducts();
     }
 
@@ -87,6 +103,10 @@ class Main {
             
             this.buscaPeData.push(productData);
         }
+    }
+
+    async GoToNextPage() {
+        await this.buscaPe.NavigateToNextPage()
     }
 
     /**
