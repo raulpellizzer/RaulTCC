@@ -26,18 +26,3 @@ Gui, Add, Button, x330 y335 w105 h35 vBtnExit gBtnExit, Exit
 
 Gui, Show, w600 h400, E-Commerce Search Tool
 return
-
-
-BtnStart:
-    MsgBox, 64,, You clicked the start button.
-    Return
-
-
-BtnExit:
-    MsgBox, 64,, You clicked the exit button.
-    Return
-
-
-Esc::
-    ExitApp
-    Return
