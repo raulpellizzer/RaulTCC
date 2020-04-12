@@ -20,8 +20,8 @@ class IniHandler {
     GetIniConfig()
     {
         let config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
-        let result = {MainTag: config['TAGS_PRODUCT']['MainTag'],
-                      Pages: config['TAGS_PRODUCT']['PagesToSearch']
+        let result = {MainTag: config['SETTINGS']['MainTag'],
+                      Pages: config['SETTINGS']['PagesToSearch']
                       };
 
         return result;
