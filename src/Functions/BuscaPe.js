@@ -66,7 +66,8 @@ class BuscaPe {
      * @param searchTags - String
      */
     QueryItem(searchTags) {
-        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 10000));  
+        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 15000));  
+        this.DriverSleep(500);
         buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
     }
 
@@ -141,12 +142,15 @@ class BuscaPe {
         for (let index = 0; index < elements.length; index++) {
             prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
             store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a > img'));
-            finalData = await store[0].getAttribute('alt') + ": " + await prices[0].getText()
+            finalData = {Store: await store[0].getAttribute('alt'), Price: await prices[0].getText()}
 
             data.push(finalData);
         }
 
-        data = data.sort(); // RE-IMPLEMENTAR:
+        data = await this.PrepareDataToOrdination(data);
+        data = await this.OrdinateData(data);
+        data = await this.ConsolidateData(data);
+
         return data;
     }
 
@@ -201,6 +205,98 @@ class BuscaPe {
         price.push(productPrice);
     
         return price;
+    }
+
+    /**
+     * Prepares the string for ordination
+     * 
+     * @param data - Array containing the store name and its prices
+     * @returns {Array} 
+     */
+    PrepareDataToOrdination(data) {
+        for (let index = 0; index < data.length; index++) {
+            let temp = data[index].Price;
+    
+            temp = temp.split(" ");
+            temp = temp[1];
+    
+            temp = temp.split(",");
+            temp = temp[0] + temp[1];
+
+            
+            temp = temp.split(".");
+            if (temp.length > 1)
+                temp = temp[0] + temp[1];
+    
+            data[index].Price = temp;
+        }
+        
+        return data;
+    }
+            
+    /**
+     * Ordinates data by its price
+     * 
+     * @param data - Array containing the store name and its prices
+     * @returns {Array} 
+     */
+    OrdinateData(data) {
+        return data.sort(function ordenateData(a, b) {
+            return a.Price - b.Price;
+        });
+    }
+
+    /**
+     * Builds the full string again
+     * 
+     * @param data - Array containing the store name and its prices
+     * @returns {Array} 
+     */
+    ConsolidateData(data) {
+        for (let index = 0; index < data.length; index++) {
+            let price = data[index].Price.toString();
+            switch (price.length) {
+
+                case 10:
+                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "." + price[5] + price[6] + price[7] + "," + price[8] + price[9]; 
+                    break;
+                
+                case 9:
+                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "." + price[4] + price[5] + price[6] + "," + price[7] + price[8]; 
+                    break;
+            
+                case 8:
+                    price = "R$ " + price[0] + price[1] + price[2] + "." + price[3] + price[4] + price[5] + "," + price[6] + price[7];
+                    break;
+            
+                case 7:
+                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "," + price[5] + price[6];
+                    break;
+                
+                case 6:
+                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "," + price[4] + price[5];
+                    break;
+            
+                case 5:
+                    price = "R$ " + price[0] + price[1] + price[2] + "," + price[3] + price[4];
+                    break;
+            
+                case 4:
+                    price = "R$ " + price[0] + price[1] + "," + price[2] + price[3];
+                    break;
+                
+                case 3:
+                    price = "R$ " + price[0] + "," + price[1] + price[2];
+                    break;
+            
+                default:
+                    break;
+            }
+            
+            data[index].Price = price;
+        }
+
+        return data;
     }
 }
 

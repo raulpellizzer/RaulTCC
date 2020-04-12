@@ -120,7 +120,8 @@ class Main {
             for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
                 if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
                     continue;
-                this.report.RegisterDataInFile(this.reportPath, this.buscaPeData[index].productPrices[innerIndex] + "\n");
+                let data = this.buscaPeData[index].productPrices[innerIndex].Store + ": " + this.buscaPeData[index].productPrices[innerIndex].Price + "\n"; 
+                this.report.RegisterDataInFile(this.reportPath, data);
             }
             this.report.RegisterDataInFile(this.reportPath, "\n\n");
         }
