@@ -200,8 +200,8 @@ class BuscaPe {
 
         store = await element.findElements(constants.By.css("div[class='cardFooter'] > a"));
         store = await store[0].getText();
-
-        productPrice = store + ": " +  mainValue + centsValue;
+        
+        productPrice = {Store: store, Price: (mainValue + centsValue)}
         price.push(productPrice);
     
         return price;
