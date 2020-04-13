@@ -1,7 +1,8 @@
 {
-  "name": "selenium_course",
+  "name": "tcc_tool",
   "version": "1.0.0",
-  "description": "selenium study",
+  "description": "software for my tcc",
+  "bin": "src/index.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

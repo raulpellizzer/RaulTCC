@@ -58,6 +58,7 @@ class BuscaPe {
      */
     async ScrollToBottom() {
         await this.driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        this.DriverSleep(500);
     }
 
     /**
@@ -66,8 +67,7 @@ class BuscaPe {
      * @param searchTags - String
      */
     QueryItem(searchTags) {
-        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 15000));  
-        this.DriverSleep(500);
+        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 15000));
         buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
     }
 
