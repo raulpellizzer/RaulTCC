@@ -4,13 +4,14 @@ SetWorkingDir, %A_ScriptDir%
 #Include, %A_ScriptDir%/view/gui.ahk
 
 BtnStart:
-    MsgBox, 64,, You clicked the start button!!
+    Gui, Submit, NoHide
+    IniWrite, %SearchTag%, config.ini, SETTINGS, MainTag
+    IniWrite, %Pages%, config.ini, SETTINGS, PagesToSearch
     Return
 
 
 BtnExit:
-    MsgBox, 64,, You clicked the exit button!!
-    Return
+    ExitApp
 
 
 Esc::
