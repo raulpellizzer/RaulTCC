@@ -26,6 +26,10 @@ class Main {
      */
     async MainExecution() {
         try {
+
+            // this.configSetup = await this.iniHandler.GetIniConfig();
+            // return 
+
             await this.Initialize();
             await this.QueryItem();
 

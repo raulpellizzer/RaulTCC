@@ -6,16 +6,20 @@ SetWorkingDir, %A_ScriptDir%
 BtnStart:
     Gui, Submit, NoHide
 
-    configPath := % A_ScriptDir . "\src\config.ini"
+    configPath := % A_ScriptDir . "\src\assets\config.ini"
     if FileExist(configPath)
-        try FileDelete, %A_ScriptDir%\src\config.ini
+        try FileDelete, %A_ScriptDir%\src\assets\config.ini
 
-    Sleep, 500
-    IniWrite, %SearchTag%, %A_ScriptDir%/src/config.ini, SETTINGS, MainTag
-    IniWrite, %Pages%, %A_ScriptDir%/src/config.ini, SETTINGS, PagesToSearch
+    Sleep, 1000
+    IniWrite, %SearchTag%, %A_ScriptDir%/src/assets/config.ini, CONFIGURATION, MainTag
+    IniWrite, %Pages%, %A_ScriptDir%/src/assets/config.ini, CONFIGURATION, PagesToSearch
     Sleep, 500
 
     Run, SearchTool.exe
+    
+    if (ErrorLevel = "ERROR")
+        MsgBox, 16,, The software found an error trying to execute the program. Please check files.
+
     Return
 
 
