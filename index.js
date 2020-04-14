@@ -1,6 +1,6 @@
-const BuscaPe = require('./Functions/BuscaPe');
-const IniHandler = require('./Functions/IniHandler');
-const Report = require('./Functions/Report');
+const BuscaPe = require('./src/Functions/BuscaPe');
+const IniHandler = require('./src/Functions/IniHandler');
+const Report = require('./src/Functions/Report');
 
 class Main {
 
@@ -26,6 +26,12 @@ class Main {
      */
     async MainExecution() {
         try {
+
+            // console.log("My application!")
+            // while(true) {
+            //     console.log("My application!")
+            // }
+
             await this.Initialize();
             await this.QueryItem();
 
@@ -52,14 +58,14 @@ class Main {
      * @returns
      */
     async Initialize() {
-        this.report.SetReportPath(__dirname + "\\data\\Search.txt");
+        this.report.SetReportPath(__dirname + "\\src\\data\\Search.txt");
         this.reportPath = this.report.GetReportPath();
 
         this.buscaPe.ChromeDriverStartUp(); 
         await this.buscaPe.NavigateToBuscaPe();
         await this.buscaPe.MaximizeWindow();
         await this.buscaPe.ScrollToBottom();
-        this.configSetup = await this.iniHandler.GetIniConfig();
+        this.configSetup = await this.iniHandler.GetIniConfig(); // NÃO ESTA RECONHECENDO OS REQUIRES
     }
 
     /**
