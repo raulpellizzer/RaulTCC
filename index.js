@@ -59,7 +59,7 @@ class Main {
         await this.buscaPe.NavigateToBuscaPe();
         await this.buscaPe.MaximizeWindow();
         await this.buscaPe.ScrollToBottom();
-        this.configSetup = await this.iniHandler.GetIniConfig(); // NÃO ESTA RECONHECENDO OS REQUIRES
+        this.configSetup = await this.iniHandler.GetIniConfig();
     }
 
     /**
@@ -94,6 +94,7 @@ class Main {
             let element = this.products[index];
 
             if (await element.getText() ==  "Ver preços") {
+                await this.buscaPe.DriverSleep(200);
                 await element.click();
                 productData = await this.buscaPe.GetProductData(false, index);
                 await this.buscaPe.NavigateToPreviousPage();

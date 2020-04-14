@@ -5,8 +5,15 @@ SetWorkingDir, %A_ScriptDir%
 
 BtnStart:
     Gui, Submit, NoHide
+
+    configPath := % A_ScriptDir . "\src\config.ini"
+    if FileExist(configPath)
+        try FileDelete, %A_ScriptDir%\src\config.ini
+
+    Sleep, 500
     IniWrite, %SearchTag%, %A_ScriptDir%/src/config.ini, SETTINGS, MainTag
     IniWrite, %Pages%, %A_ScriptDir%/src/config.ini, SETTINGS, PagesToSearch
+    Sleep, 500
 
     Run, SearchTool.exe
     Return
