@@ -26,12 +26,6 @@ class Main {
      */
     async MainExecution() {
         try {
-
-            // console.log("My application!")
-            // while(true) {
-            //     console.log("My application!")
-            // }
-
             await this.Initialize();
             await this.QueryItem();
 
