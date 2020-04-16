@@ -1,3 +1,5 @@
+"use strict";
+
 const constants = require('./consts');
 
 class ChromeDriver {

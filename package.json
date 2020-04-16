@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "software for my tcc",
   "main": "index.js",
-  "assets": "assets/**/*",
+  "assets": "src/**/*",
   "scripts": {
     "start": "node index.js"
   },

@@ -1,3 +1,5 @@
+"use strict";
+
 const BuscaPe = require('./src/Functions/BuscaPe');
 const IniHandler = require('./src/Functions/IniHandler');
 const Report = require('./src/Functions/Report');
@@ -27,9 +29,6 @@ class Main {
     async MainExecution() {
         try {
 
-            // this.configSetup = await this.iniHandler.GetIniConfig();
-            // return 
-
             await this.Initialize();
             await this.QueryItem();
 
@@ -40,13 +39,13 @@ class Main {
                 await this.GoToNextPage();
                 await this.buscaPe.DriverSleep(5000);
             }
-
+            
             await this.GenerateTXTReport();
 
             console.log("Done!");
 
         } catch (error) {
-            console.log(error);
+            console.log("Error: " + error);
         }
     }
 
@@ -56,10 +55,10 @@ class Main {
      * @returns
      */
     async Initialize() {
-        this.report.SetReportPath(__dirname + "\\src\\data\\Search.txt");
+        this.report.SetReportPath("C:\\Users\\raull\\OneDrive\\Área de Trabalho\\Programação\\TCC\\src\\data\\Search.txt");
         this.reportPath = this.report.GetReportPath();
 
-        this.buscaPe.ChromeDriverStartUp(); 
+        await this.buscaPe.ChromeDriverStartUp(); 
         await this.buscaPe.NavigateToBuscaPe();
         await this.buscaPe.MaximizeWindow();
         await this.buscaPe.ScrollToBottom();
@@ -100,13 +99,15 @@ class Main {
             if (await element.getText() ==  "Ver preços") {
                 await this.buscaPe.DriverSleep(200);
                 await element.click();
-                productData = await this.buscaPe.GetProductData(false, index);
+                productData = await this.buscaPe.GetProductData(false, index); // error here
                 await this.buscaPe.NavigateToPreviousPage();
                 await this.buscaPe.DriverSleep(100);
-            } else 
+            } else {
                 productData = await this.buscaPe.GetProductData(true, index);
-            
+            }
+
             this.buscaPeData.push(productData);
+
         }
     }
 
@@ -121,11 +122,12 @@ class Main {
      */
     async GenerateTXTReport() {
         for (let index = 0; index < this.buscaPeData.length; index++) {
-            this.report.RegisterDataInFile(this.reportPath, this.buscaPeData[index].productName + "\n");
+            this.report.RegisterDataInFile(this.reportPath, this.buscaPeData[index].productName + "\n"); // error here
             for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
                 if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
                     continue;
-                let data = this.buscaPeData[index].productPrices[innerIndex].Store + ": " + this.buscaPeData[index].productPrices[innerIndex].Price + "\n"; 
+                // let data = this.buscaPeData[index].productPrices[innerIndex].Store + ": " + this.buscaPeData[index].productPrices[innerIndex].Price + "\n";
+                let data = this.buscaPeData[index].productPrices[innerIndex].Price + "\n";
                 this.report.RegisterDataInFile(this.reportPath, data);
             }
             this.report.RegisterDataInFile(this.reportPath, "\n\n");

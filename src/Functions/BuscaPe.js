@@ -1,3 +1,5 @@
+"use strict";
+
 const ChromeDriver = require('./ChromeDriver');
 const constants = require('./consts');
 
@@ -16,8 +18,8 @@ class BuscaPe {
      * Starts up the driver for google chrome
      * 
      */
-    ChromeDriverStartUp() {
-        this.driver = this.chromeDriver.DriverStartUp();
+    async ChromeDriverStartUp() {
+        this.driver = await this.chromeDriver.DriverStartUp();
     }
 
     /**
@@ -67,7 +69,7 @@ class BuscaPe {
      * @param searchTags - String
      */
     QueryItem(searchTags) {
-        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 15000));
+        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 60000));
         buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
     }
 
@@ -77,7 +79,7 @@ class BuscaPe {
      * @returns {WebElement} A web element from buscape
      */
     async GetProducts() {
-        await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"), 15000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"), 60000));
         let element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
 
         return element;
@@ -99,9 +101,13 @@ class BuscaPe {
                 let productPrices = await this.GetSingleStoreProductPrice(index);
                 data = {productName, productPrices};
             } else {
+                console.log('Teste 01');
                 let productName = await this.GetProductName();
-                let productPrices = await this.GetProductPrices();
+                console.log('Teste 02');
+                let productPrices = await this.GetProductPrices(); // ERROR AQUI
+                console.log('Teste 03');
                 data = {productName, productPrices};
+                // data = {productName};
             }
 
             return data;
@@ -119,7 +125,7 @@ class BuscaPe {
     async GetProductName() {
         let productName = "";
 
-        await this.driver.wait(constants.until.elementLocated(constants.By.css("h1[class='product-name'] > span"), 15000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css("h1[class='product-name'] > span"), 60000));
         productName = await this.driver.findElements(constants.By.css("h1[class='product-name'] > span"));
         productName = await productName[0].getText();
 
@@ -138,12 +144,17 @@ class BuscaPe {
         let finalData = "";
 
         let elements = await this.driver.findElements(constants.By.css("ul[class='offers-list'] > li"));
-
+    
         for (let index = 0; index < elements.length; index++) {
             prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
             store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a > img'));
-            finalData = {Store: await store[0].getAttribute('alt'), Price: await prices[0].getText()}
 
+            // let storeName = await store[0].getAttribute("alt");  // ERRO AQUI !!
+            let storeName = await store[0].getAttribute("alt");
+            console.log("name: " + storeName);
+            let storePrice = await prices[0].getText();
+
+            finalData = {Price: storePrice};
             data.push(finalData);
         }
 
@@ -164,7 +175,7 @@ class BuscaPe {
         let productName = "";
         let element     = "";
     
-        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 60000));
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
         element = element[index];
         productName = await element.findElements(constants.By.css("a[class='name']"));
@@ -187,7 +198,7 @@ class BuscaPe {
         let store         = "";
         let price         = [];
 
-        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 15000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 60000));
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
         element = element[index];
 

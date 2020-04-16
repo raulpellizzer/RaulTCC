@@ -1,3 +1,5 @@
+"use strict";
+
 const {Builder, By, Key, util, until} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const jsAttribute = require('selenium-webdriver/lib/atoms/get-attribute');
