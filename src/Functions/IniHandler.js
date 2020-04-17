@@ -21,11 +21,10 @@ class IniHandler {
      */
     GetIniConfig()
     {
-        let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'utf-8'));
+        let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
         let result = {MainTag: config['CONFIGURATION']['MainTag'],
                       Pages: config['CONFIGURATION']['PagesToSearch']
                       };
-    
 
         return result;
     }
