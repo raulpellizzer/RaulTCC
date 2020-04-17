@@ -55,7 +55,7 @@ class Main {
      * @returns
      */
     async Initialize() {
-        this.report.SetReportPath("C:\\Users\\raull\\OneDrive\\Área de Trabalho\\Programação\\TCC\\src\\data\\Search.txt");
+        this.report.SetReportPath("C:\\TCC\\src\\data\\Search.txt");
         this.reportPath = this.report.GetReportPath();
 
         await this.buscaPe.ChromeDriverStartUp(); 

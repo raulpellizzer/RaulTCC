@@ -101,11 +101,8 @@ class BuscaPe {
                 let productPrices = await this.GetSingleStoreProductPrice(index);
                 data = {productName, productPrices};
             } else {
-                console.log('Teste 01');
                 let productName = await this.GetProductName();
-                console.log('Teste 02');
                 let productPrices = await this.GetProductPrices(); // ERROR AQUI
-                console.log('Teste 03');
                 data = {productName, productPrices};
                 // data = {productName};
             }
@@ -139,19 +136,17 @@ class BuscaPe {
      */
     async GetProductPrices() {
         let data      = [];
-        let prices    = "";
-        let store     = "";
         let finalData = "";
 
         let elements = await this.driver.findElements(constants.By.css("ul[class='offers-list'] > li"));
     
         for (let index = 0; index < elements.length; index++) {
-            prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
-            store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a > img'));
+            let prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
+            let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
 
             // let storeName = await store[0].getAttribute("alt");  // ERRO AQUI !!
-            let storeName = await store[0].getAttribute("alt");
-            console.log("name: " + storeName);
+            // let storeName = await store[0].getAttribute("title");
+            // console.log("name: " + storeName);
             let storePrice = await prices[0].getText();
 
             finalData = {Price: storePrice};

@@ -6,8 +6,7 @@ SetWorkingDir, %A_ScriptDir%
 BtnStart:
     Gui, Submit, NoHide
 
-    ; configPath := % A_ScriptDir . "\src\assets\config.ini"
-    configPath := "C:\Users\raull\config.ini"
+    configPath := "C:\TCC\src\data\config.ini"
     if FileExist(configPath)
         try FileDelete, %configPath%
 
