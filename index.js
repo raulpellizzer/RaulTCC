@@ -120,7 +120,7 @@ class Main {
      * @returns
      */
     async GenerateTXTReport() {
-        let reportHeader = this.report.BuildReportInfos(this.configSetup.MainTag, this.configSetup.Pages);
+        let reportHeader = await this.report.BuildReportInfos(this.configSetup.MainTag, this.configSetup.Pages);
         this.report.RegisterDataInFile(this.report.reportPath, reportHeader);
 
         for (let index = 0; index < this.buscaPeData.length; index++) {

@@ -1,6 +1,7 @@
 "use strict";
 
-const fs = require('fs');
+const fs   = require('fs');
+const Date = require('./Date');
 
 class Report {
 
@@ -10,6 +11,7 @@ class Report {
      * @constructor
      */
     constructor() {
+        this.date       = new Date();
         this.reportPath = "";
     }
 
@@ -17,11 +19,15 @@ class Report {
         this.reportPath = path;
     }
 
-    BuildReportInfos(searchTag, numberOfPages) {
+    async BuildReportInfos(searchTag, numberOfPages) {
         let header = "";
-        // implementing
+        let time   = "";
 
-        header = "Product Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n\n";
+        time = await this.date.GetCurrentFullDate();
+        header = time + "\nProduct Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n\n";
+        header = header + "--------------------------------------------------------------------------------------------------------------\n\n"
+
+        return header;
     }
 
     RegisterDataInFile(path, data) {
