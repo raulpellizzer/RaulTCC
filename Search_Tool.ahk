@@ -24,6 +24,9 @@ BtnStart:
 
             SetConfig(configPath, userSearchTag, totalPages)
             RunProcess(executableName)
+
+            MsgBox, 64,, The process has ended! 
+            
             return
         } else {
             errorMessage := "Please fill the input fields in the correct format. The item search field`n"

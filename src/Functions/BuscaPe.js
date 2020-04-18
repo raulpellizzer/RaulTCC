@@ -40,8 +40,12 @@ class BuscaPe {
      * Navigates to next page
      */
     async NavigateToNextPage() {
-        let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
-        await btnNext[0].click();
+        try {
+            let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
+            await btnNext[0].click();
+        } finally {
+            return;
+        }
     }
 
     /**

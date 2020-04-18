@@ -17,8 +17,11 @@ class Report {
         this.reportPath = path;
     }
 
-    GetReportPath() {
-        return this.reportPath;
+    BuildReportInfos(searchTag, numberOfPages) {
+        let header = "";
+        // implementing
+
+        header = "Product Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n\n";
     }
 
     RegisterDataInFile(path, data) {
