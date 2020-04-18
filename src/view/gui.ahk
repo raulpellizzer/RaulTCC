@@ -19,7 +19,6 @@ Gui, Add, Edit, x195 y140 w50 h20 vPages
 Gui, Font, s10, Verdana
 Gui, Add, Text, x35 y200 w105 h20, Export Data As
 Gui, Add, Radio, x55 y230 w160 h20 vTextRadio Checked, Text File (.txt)
-Gui, Add, Radio, x55 y260 w160 h20 vExcelRadio, Excel File (.xlsx)
 
 Gui, Font, s10
 Gui, Add, Button, x135 y335 w105 h35 vBtnStart gBtnStart, Start Search
