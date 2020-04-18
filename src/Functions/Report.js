@@ -19,12 +19,13 @@ class Report {
         this.reportPath = path;
     }
 
-    async BuildReportInfos(searchTag, numberOfPages) {
+    async BuildReportInfos(searchTag, numberOfPages, totalOfProducts) {
         let header = "";
         let time   = "";
 
         time = await this.date.GetCurrentFullDate();
-        header = time + "\nProduct Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n\n";
+        header = time + "\nProduct Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n";
+        header = header + "Total Products Found: " + totalOfProducts + "\n\n"
         header = header + "--------------------------------------------------------------------------------------------------------------\n\n"
 
         return header;
