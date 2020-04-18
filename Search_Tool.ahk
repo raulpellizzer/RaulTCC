@@ -1,35 +1,82 @@
 #SingleInstance, Force
 SetWorkingDir, %A_ScriptDir%
+SetTitleMatchMode, 2
 
 #Include, %A_ScriptDir%/src/view/gui.ahk
 
 BtnStart:
-    Gui, Submit, NoHide
 
-    configPath := "C:\TCC\src\data\config.ini"
+    try {
+        Gui, Submit, NoHide
 
-    Sleep, 1000
-    IniWrite, %SearchTag%, %configPath%, CONFIGURATION, MainTag
-    IniWrite, %Pages%, %configPath%, CONFIGURATION, PagesToSearch
-    Sleep, 500
+        GuiControlGet, userSearchTag,, SearchTag
+        GuiControlGet, totalPages,, Pages
 
-    RunWait, index-win.exe
-    
-    if (ErrorLevel = "ERROR") {
-        MsgBox, 16,, The software found an error trying to execute the program. Please check files.
+        configPath      := "C:\TCC\src\data\config.ini"
+        executableName  := "index-win.exe"
+
+        canProceed := VerifyInputs(userSearchTag, totalPages)
+
+        if (canProceed) {
+            GuiControl, Disable, BtnStart
+            GuiControl, Disable, SearchTag
+            GuiControl, Disable, Pages
+
+            SetConfig(configPath, userSearchTag, totalPages)
+            RunProcess(executableName)
+            return
+        } else {
+            errorMessage := "Please fill the input fields in the correct format. The item search field`n"
+            errorMessage .= "cannot be empty and the number of pages needs to be a number"
+
+            MsgBox, 16,, % errorMessage
+        }
+
         return
+    } catch, err {
+        MsgBox, % err.Message
     }
-
-    MsgBox, 64,, The process has ended!
-
-    Return
 
 
 BtnExit:
-    MsgBox, 64,, You clicked the exit button!
+    ; Implement, maybe
     ExitApp
 
 
 Esc::
     ExitApp
     Return
+
+
+SetConfig(configPath, userSearchTag, totalPages) {
+    Sleep, 100
+    IniWrite, %userSearchTag%, %configPath%, CONFIGURATION, MainTag
+    IniWrite, %totalPages%, %configPath%, CONFIGURATION, PagesToSearch
+    Sleep, 100
+}
+
+RunProcess(executableName) {
+    RunWait, %executableName%
+
+    if (ErrorLevel = "ERROR") {
+        MsgBox, 16,, The software found an error trying to execute the program. Please check files.
+        return
+    }
+}
+
+VerifyInputs(userSearchTag, totalPages) {
+    textField    := false
+    numberField  := false
+
+    if (userSearchTag != "") {
+        textField := true
+    }
+
+    if totalPages is integer
+        numberField := true
+
+    if (textField == true && numberField == true)
+        return true
+    else
+        return false
+}
