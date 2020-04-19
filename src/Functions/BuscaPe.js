@@ -83,10 +83,15 @@ class BuscaPe {
      * @returns {WebElement} A web element from buscape
      */
     async GetProducts() {
-        let element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
-        element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
+        try {
+            let element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
+            element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
+        }
 
-        return element;
+        finally {
+            // If type = 'undefined' -> error
+            return element;
+        }
     }
 
     /**
