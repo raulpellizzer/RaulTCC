@@ -84,7 +84,7 @@ class BuscaPe {
      */
     async GetProducts() {
         try {
-            let element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
+            var element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
             element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
         }
 

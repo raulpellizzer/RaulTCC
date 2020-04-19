@@ -34,7 +34,7 @@ class Main {
 
             for (let index = 0; index < this.configSetup.Pages; index++) {
                 console.log("Reading page: " + (index + 1));
-                await this.GetProducts();
+                await this.GetBuscaPeProducts();
                 await this.RetrieveData();
                 await this.GoToNextPage();
                 await this.buscaPe.DriverSleep(8000);
@@ -78,7 +78,7 @@ class Main {
      * 
      * @returns
      */
-    async GetProducts() {
+    async GetBuscaPeProducts() {
         this.products = await this.buscaPe.GetProducts();
     }
 
