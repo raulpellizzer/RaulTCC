@@ -40,14 +40,16 @@ class Main {
                     await this.RetrieveData();
                     await this.GoToNextPage();
                     await this.buscaPe.DriverSleep(8000);
-                    await this.GenerateTXTReport();
                 } else {
                     this.report.LogError(this.configSetup.MainTag);
+                    return
                 }
             }
 
+            await this.GenerateTXTReport();
             console.log("The process has ended!");
-
+            
+            return
         } catch (error) {
             console.log("Error: " + error);
         }
