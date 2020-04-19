@@ -73,7 +73,7 @@ class BuscaPe {
      * @param searchTags - String
      */
     QueryItem(searchTags) {
-        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q'), 60000));
+        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q')), 60000);
         buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
     }
 
@@ -83,8 +83,8 @@ class BuscaPe {
      * @returns {WebElement} A web element from buscape
      */
     async GetProducts() {
-        await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"), 60000));
-        let element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
+        let element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
+        element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
 
         return element;
     }
@@ -126,7 +126,7 @@ class BuscaPe {
     async GetProductName() {
         let productName = "";
 
-        await this.driver.wait(constants.until.elementLocated(constants.By.css("h1[class='product-name'] > span"), 60000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css("h1[class='product-name'] > span")), 60000);
         productName = await this.driver.findElements(constants.By.css("h1[class='product-name'] > span"));
         productName = await productName[0].getText();
 
@@ -174,7 +174,7 @@ class BuscaPe {
         let productName = "";
         let element     = "";
     
-        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 60000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody')), 60000);
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
         element = element[index];
         productName = await element.findElements(constants.By.css("a[class='name']"));
@@ -197,7 +197,7 @@ class BuscaPe {
         let store         = "";
         let price         = [];
 
-        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody'), 60000));
+        await this.driver.wait(constants.until.elementLocated(constants.By.css('div.cardBody')), 60000);
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
         element = element[index];
 

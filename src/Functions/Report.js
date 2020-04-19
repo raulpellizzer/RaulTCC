@@ -19,6 +19,14 @@ class Report {
         this.reportPath = path;
     }
 
+    async LogError(searchTag) {
+        let time = await this.date.GetCurrentFullDate();
+        let message = time + "\nBuscaPe returned no results for: " + searchTag + "\n\n";
+        message = message + "--------------------------------------------------------------------------------------------------------------\n\n"
+
+        await this.RegisterDataInFile(this.reportPath, message);
+    }
+
     async BuildReportInfos(searchTag, numberOfPages, totalOfProducts) {
         let header = "";
         let time   = "";
