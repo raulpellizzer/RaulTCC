@@ -97,6 +97,8 @@ class Main {
         let productData = "";
 
         for (let index = 0; index < this.products.length; index++) {
+            await this.iniHandler.SetCurrentSearchStatus(this.products.length, index);
+
             await this.buscaPe.DriverSleep(200);
             this.products = await this.buscaPe.GetProducts();
             let element = this.products[index];

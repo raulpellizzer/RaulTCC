@@ -28,6 +28,15 @@ class IniHandler {
 
         return result;
     }
+
+    SetCurrentSearchStatus(totalOfProducts, currentProduct) {
+        let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+
+        config.CONFIGURATION.TotalProductsInPage = totalOfProducts;
+        config.CONFIGURATION.CurrentProduct = currentProduct;
+
+        fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'))
+    }
 }
 
 module.exports = IniHandler;
