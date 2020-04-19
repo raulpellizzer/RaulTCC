@@ -35,14 +35,18 @@ class Main {
             for (let index = 0; index < this.configSetup.Pages; index++) {
                 console.log("Reading page: " + (index + 1));
                 await this.GetBuscaPeProducts();
-                await this.RetrieveData();
-                await this.GoToNextPage();
-                await this.buscaPe.DriverSleep(8000);
-            }
-            
-            await this.GenerateTXTReport();
 
-            console.log("Done!");
+                if (this.products != undefined) {
+                    await this.RetrieveData();
+                    await this.GoToNextPage();
+                    await this.buscaPe.DriverSleep(8000);
+                    await this.GenerateTXTReport();
+                } else {
+                    this.report.LogError(this.configSetup.MainTag);
+                }
+            }
+
+            console.log("The process has ended!");
 
         } catch (error) {
             console.log("Error: " + error);

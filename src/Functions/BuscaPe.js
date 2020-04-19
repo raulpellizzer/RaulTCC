@@ -89,7 +89,6 @@ class BuscaPe {
         }
 
         finally {
-            // If type = 'undefined' -> error
             return element;
         }
     }
