@@ -41,14 +41,10 @@ class IniHandler {
 
     SetEndOfProcess() { 
         setTimeout(() => {
-            console.log("FUNC 01");
             let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
-            console.log("FUNC 02");
 
             config.CONFIGURATION.ProccessEnded = 'Yes';
-            console.log("FUNC 03");
             fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
-            console.log("FUNC 04");
         }, 3000);
     }
 }

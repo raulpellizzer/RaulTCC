@@ -55,14 +55,18 @@ class Main {
 
             console.log("Aqui 1");
             await this.iniHandler.SetEndOfProcess();
+            console.log("Aqui 2");
             await this.GenerateTXTReport(currentPage);
+            console.log("Aqui 3");
             console.log("The process has ended!");
             
             return
         } catch (error) {
+            console.log("Aqui 4");
             this.report.LogError(this.configSetup.MainTag);
-            console.log("Aqui 2");
+            console.log("Aqui 5");
             await this.iniHandler.SetEndOfProcess();
+            console.log("Aqui 6");
             console.log(error);
             return
         }
