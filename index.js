@@ -28,7 +28,8 @@ class Main {
      */
     async MainExecution() {
         try {
-            var currentPage = "";
+            var currentPage  = "";
+            let exitProccess = "";
 
             await this.Initialize();
             await this.QueryItem();
@@ -40,13 +41,13 @@ class Main {
                 await this.GetBuscaPeProducts();
 
                 if (this.products != undefined) {
-                    await this.RetrieveData(currentPage);
-                    let nextPage = await this.GoToNextPage();
-
-                    if (!nextPage) {
-                        console.log("Cai no BREAK. Index: " + index);
+                    exitProccess = await this.RetrieveData(currentPage);
+                    if (exitProccess)
                         break;
-                    }
+
+                    let nextPage = await this.GoToNextPage();
+                    if (!nextPage)
+                        break;
 
                     await this.buscaPe.DriverSleep(8000);
                 } else
@@ -112,6 +113,7 @@ class Main {
      */
     async RetrieveData(currentPage) {
         let productData = "";
+        let exitStatus  = "";
 
         for (let index = 0; index < this.products.length; index++) {
             await this.iniHandler.SetCurrentSearchStatus(this.products.length, index, currentPage);
@@ -138,7 +140,10 @@ class Main {
             }
 
             this.buscaPeData.push(productData);
+            exitStatus = this.iniHandler.CheckExitStatus();
 
+            if (exitStatus)
+                return true;
         }
     }
 

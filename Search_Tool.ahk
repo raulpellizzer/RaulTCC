@@ -48,6 +48,7 @@ SetConfig(configPath, userSearchTag, totalPages) {
     IniWrite, -, %configPath%, CONFIGURATION, CurrentPage
     IniWrite, 1, %configPath%, CONFIGURATION, TotalProductsInPage
     IniWrite, No, %configPath%, CONFIGURATION, ProccessEnded
+    IniWrite, No, %configPath%, CONFIGURATION, ExitProcess
     Sleep, 100
 }
 
@@ -113,6 +114,9 @@ UpdateProgressBar(configPath) {
 }
 
 ExitApplication() {
+    configPath      := "C:\TCC\src\data\config.ini"
+    IniWrite, Yes, %configPath%, CONFIGURATION, ExitProcess
+
     executableName := "index-win.exe"
     try Process, Close, %executableName%
     try Process, Close, chromedriver.exe
@@ -122,7 +126,7 @@ ExitApplication() {
 }
 
 BtnExit:
-    MsgBox, 4,, Are you sure you want to exit? If the process is still on going no data will be saved!
+    MsgBox, 4,, Are you sure you want to exit?
     IfMsgBox Yes 
         ExitApplication()
     

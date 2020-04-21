@@ -47,6 +47,16 @@ class IniHandler {
             fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
         }, 3000);
     }
+
+    CheckExitStatus() {
+        let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+        let resultStatus = config['CONFIGURATION']['ExitProcess'];
+
+        if (resultStatus == "Yes")
+            return true;
+        else
+            return false;
+    }
 }
 
 module.exports = IniHandler;
