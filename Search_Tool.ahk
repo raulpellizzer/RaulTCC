@@ -127,8 +127,3 @@ BtnExit:
         ExitApplication()
     
     Return
-
-
-Esc::
-    ExitApp
-    Return

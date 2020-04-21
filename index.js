@@ -43,14 +43,17 @@ class Main {
                     await this.RetrieveData(currentPage);
                     let nextPage = await this.GoToNextPage();
 
-                    if (!nextPage)
+                    if (!nextPage) {
+                        console.log("Cai no BREAK. Index: " + index);
                         break;
+                    }
 
                     await this.buscaPe.DriverSleep(8000);
                 } else
                     this.report.LogError(this.configSetup.MainTag);
             }
 
+            console.log("Aqui 1");
             await this.iniHandler.SetEndOfProcess();
             await this.GenerateTXTReport(currentPage);
             console.log("The process has ended!");
@@ -58,6 +61,7 @@ class Main {
             return
         } catch (error) {
             this.report.LogError(this.configSetup.MainTag);
+            console.log("Aqui 2");
             await this.iniHandler.SetEndOfProcess();
             console.log(error);
             return

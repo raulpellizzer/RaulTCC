@@ -54,19 +54,6 @@ class BuscaPe {
         {
             return false;
         }
-
-
-
-
-
-
-
-        // try {
-        //     let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
-        //     await btnNext[0].click();
-        // } finally {
-        //     return;
-        // }
     }
 
     /**
@@ -105,7 +92,7 @@ class BuscaPe {
      */
     async GetProducts() {
         try {
-            var element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 6000);
+            var element = await this.driver.wait(constants.until.elementLocated(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']")), 60000);
             element = await this.driver.findElements(constants.By.css("div.cardBody > div.cardFooter > a[class*='Button']"));
         }
 
@@ -170,11 +157,12 @@ class BuscaPe {
     
         for (let index = 0; index < elements.length; index++) {
             let prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
-            let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
-
+            
+            // let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
             // let storeName = await store[0].getAttribute("alt");  // ERRO AQUI !!
             // let storeName = await store[0].getAttribute("title");
             // console.log("name: " + storeName);
+            
             let storePrice = await prices[0].getText();
 
             finalData = {Price: storePrice};
