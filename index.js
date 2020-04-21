@@ -33,25 +33,31 @@ class Main {
             await this.QueryItem();
 
             for (let index = 0; index < this.configSetup.Pages; index++) {
+                let currentPage = index + 1;
+
                 console.log("Reading page: " + (index + 1));
                 await this.GetBuscaPeProducts();
 
                 if (this.products != undefined) {
-                    await this.RetrieveData();
+                    await this.RetrieveData(currentPage);
                     await this.GoToNextPage();
                     await this.buscaPe.DriverSleep(8000);
                 } else {
                     this.report.LogError(this.configSetup.MainTag);
+                    await this.iniHandler.SetEndOfProcess();
                     return
                 }
             }
 
+            await this.iniHandler.SetEndOfProcess();
             await this.GenerateTXTReport();
             console.log("The process has ended!");
             
             return
         } catch (error) {
+            await this.iniHandler.SetEndOfProcess();
             console.log("Error: " + error);
+            return
         }
     }
 
@@ -93,11 +99,11 @@ class Main {
      * 
      * @returns
      */
-    async RetrieveData() {
+    async RetrieveData(currentPage) {
         let productData = "";
 
         for (let index = 0; index < this.products.length; index++) {
-            await this.iniHandler.SetCurrentSearchStatus(this.products.length, index);
+            await this.iniHandler.SetCurrentSearchStatus(this.products.length, index, currentPage);
 
             await this.buscaPe.DriverSleep(200);
             this.products = await this.buscaPe.GetProducts();

@@ -21,7 +21,8 @@ class Report {
 
     async LogError(searchTag) {
         let time = await this.date.GetCurrentFullDate();
-        let message = time + "\nBuscaPe returned no results for: " + searchTag + "\n\n";
+        let message = time + "\nAn error has occured for: " + searchTag + " "
+        message = message + "or no results were found\n\n";
         message = message + "--------------------------------------------------------------------------------------------------------------\n\n"
 
         await this.RegisterDataInFile(this.reportPath, message);

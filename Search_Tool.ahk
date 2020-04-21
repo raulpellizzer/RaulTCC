@@ -23,10 +23,9 @@ BtnStart:
             GuiControl, Disable, Pages
 
             SetConfig(configPath, userSearchTag, totalPages)
-            RunProcess(executableName)
+            RunProcess(executableName, configPath)
 
             MsgBox, 64,, The process has ended! 
-            
             return
         } else {
             errorMessage := "Please fill the input fields in the correct format. The item search field`n"
@@ -40,31 +39,39 @@ BtnStart:
         MsgBox, % err.Message
     }
 
-
-BtnExit:
-    ; Implement, maybe
-    ExitApp
-
-
-Esc::
-    ExitApp
-    Return
-
-
 SetConfig(configPath, userSearchTag, totalPages) {
     Sleep, 100
     IniWrite, %userSearchTag%, %configPath%, CONFIGURATION, MainTag
     IniWrite, %totalPages%, %configPath%, CONFIGURATION, PagesToSearch
+
+    IniWrite, 0, %configPath%, CONFIGURATION, CurrentProduct
+    IniWrite, -, %configPath%, CONFIGURATION, CurrentPage
+    IniWrite, 1, %configPath%, CONFIGURATION, TotalProductsInPage
+    IniWrite, No, %configPath%, CONFIGURATION, ProccessEnded
     Sleep, 100
 }
 
-RunProcess(executableName) {
-    RunWait, %executableName%
+RunProcess(executableName, configPath) {
+    Run, %executableName%
+    Sleep, 100
 
     if (ErrorLevel = "ERROR") {
         MsgBox, 16,, The software found an error trying to execute the program. Please check files.
         return
+    } else {
+        processEnded := GetProccessStatuses(configPath)
+
+        while (processEnded != "Yes") {
+            UpdateProgressBar(configPath)
+            Sleep, 1000
+            processEnded := GetProccessStatuses(configPath)
+        }
     }
+}
+
+GetProccessStatuses(configPath) {
+    IniRead, processStatuses, %configPath%, CONFIGURATION, ProccessEnded
+    return processStatuses
 }
 
 VerifyInputs(userSearchTag, totalPages) {
@@ -83,3 +90,33 @@ VerifyInputs(userSearchTag, totalPages) {
     else
         return false
 }
+
+GetCurrentStep(configPath) {
+    IniRead, CurrentProduct, %configPath%, CONFIGURATION, CurrentProduct
+    IniRead, TotalProductsInPage, %configPath%, CONFIGURATION, TotalProductsInPage
+    IniRead, currentPage, %configPath%, CONFIGURATION, CurrentPage
+
+    return {"CurrentProduct": CurrentProduct
+        , "TotalProductsInPage": TotalProductsInPage
+        , "currentPage": currentPage}
+}
+
+UpdateProgressBar(configPath) {
+    currentStep := GetCurrentStep(configPath)
+    currentPage := currentStep.currentPage
+
+    frac := Ceil(100/currentStep.TotalProductsInPage)
+    step := (frac*currentStep.CurrentProduct)
+
+    GuiControl,, ProccessProgress, %step%
+    GuiControl,, CurrentPage, %currentPage%
+}
+
+BtnExit:
+    ExitApp
+    Return
+
+
+Esc::
+    ExitApp
+    Return
