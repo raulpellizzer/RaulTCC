@@ -112,14 +112,20 @@ UpdateProgressBar(configPath) {
     GuiControl,, CurrentPage, %currentPage%
 }
 
-BtnExit:
+ExitApplication() {
     executableName := "index-win.exe"
     try Process, Close, %executableName%
     try Process, Close, chromedriver.exe
     try WinClose, Buscap
     try WinClose, %executableName%
-
     ExitApp
+}
+
+BtnExit:
+    MsgBox, 4,, Are you sure you want to exit? No data will be saved!
+    IfMsgBox Yes 
+        ExitApplication()
+    
     Return
 
 
