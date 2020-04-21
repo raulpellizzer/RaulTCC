@@ -40,12 +40,33 @@ class BuscaPe {
      * Navigates to next page
      */
     async NavigateToNextPage() {
-        try {
-            let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
-            await btnNext[0].click();
-        } finally {
-            return;
+
+        try
+        {
+            let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a[class='ais-Pagination-link ais-Pagination']"));
+            
+            if (btnNext.length > 0) {
+                btnNext[0].click();
+                return true;
+            }
         }
+        catch (error)
+        {
+            return false;
+        }
+
+
+
+
+
+
+
+        // try {
+        //     let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a"));
+        //     await btnNext[0].click();
+        // } finally {
+        //     return;
+        // }
     }
 
     /**
@@ -112,7 +133,6 @@ class BuscaPe {
                 let productName = await this.GetProductName();
                 let productPrices = await this.GetProductPrices(); // ERROR AQUI
                 data = {productName, productPrices};
-                // data = {productName};
             }
 
             return data;

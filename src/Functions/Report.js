@@ -28,15 +28,18 @@ class Report {
         await this.RegisterDataInFile(this.reportPath, message);
     }
 
-    async BuildReportInfos(searchTag, numberOfPages, totalOfProducts) {
+    async BuildReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
         let header = "";
         let time   = "";
 
         time = await this.date.GetCurrentFullDate();
-        header = time + "\nProduct Searched: " + searchTag + "\nNumber of Pages Searched in BuscaPe: " + numberOfPages + "\n";
-        header = header + "Total Products Found: " + totalOfProducts + "\n\n"
-        header = header + "--------------------------------------------------------------------------------------------------------------\n\n"
 
+        header = time + "\nProduct Searched: " + searchTag;
+        header = header + "\nNumber of Pages Informed for the search: " + numberOfPages;
+        header = header + "\nNumber of Pages Searched in BuscaPe: " + currentPage;
+        header = header + "\nTotal Products Found: " + totalOfProducts + "\n\n"
+        header = header + "--------------------------------------------------------------------------------------------------------------\n\n"
+        
         return header;
     }
 

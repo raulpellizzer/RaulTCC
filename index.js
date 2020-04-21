@@ -40,7 +40,15 @@ class Main {
 
                 if (this.products != undefined) {
                     await this.RetrieveData(currentPage);
-                    await this.GoToNextPage();
+                    let nextPage = await this.GoToNextPage();
+
+                    if (!nextPage) {
+                        await this.GenerateTXTReport(currentPage);
+                        await this.iniHandler.SetEndOfProcess();
+                        console.log("The process has ended!");
+                        return
+                    }
+
                     await this.buscaPe.DriverSleep(8000);
                 } else {
                     this.report.LogError(this.configSetup.MainTag);
@@ -50,13 +58,13 @@ class Main {
             }
 
             await this.iniHandler.SetEndOfProcess();
-            await this.GenerateTXTReport();
+            await this.GenerateTXTReport(currentPage);
             console.log("The process has ended!");
             
             return
         } catch (error) {
             await this.iniHandler.SetEndOfProcess();
-            console.log("Error: " + error);
+            console.log(error);
             return
         }
     }
@@ -111,10 +119,17 @@ class Main {
 
             if (await element.getText() ==  "Ver preços") {
                 await this.buscaPe.DriverSleep(200);
-                await element.click();
-                productData = await this.buscaPe.GetProductData(false, index); // error here
-                await this.buscaPe.NavigateToPreviousPage();
-                await this.buscaPe.DriverSleep(100);
+
+                try {
+                    await element.click();
+                    productData = await this.buscaPe.GetProductData(false, index);
+                    await this.buscaPe.NavigateToPreviousPage();
+                    await this.buscaPe.DriverSleep(100);
+                } catch (error) {
+                    let productName = "Error when retrieving product " + index;
+                    productData = {productName: productName, productPrices: "None"};
+                }
+
             } else {
                 productData = await this.buscaPe.GetProductData(true, index);
             }
@@ -125,7 +140,8 @@ class Main {
     }
 
     async GoToNextPage() {
-        await this.buscaPe.NavigateToNextPage()
+        let res = await this.buscaPe.NavigateToNextPage();
+        return res;
     }
 
     /**
@@ -133,8 +149,8 @@ class Main {
      * 
      * @returns
      */
-    async GenerateTXTReport() {
-        let reportHeader = await this.report.BuildReportInfos(this.configSetup.MainTag, this.configSetup.Pages, this.buscaPeData.length);
+    async GenerateTXTReport(currentPage) {
+        let reportHeader = await this.report.BuildReportInfos(this.configSetup.MainTag, this.configSetup.Pages, currentPage, this.buscaPeData.length);
         this.report.RegisterDataInFile(this.report.reportPath, reportHeader);
 
         for (let index = 0; index < this.buscaPeData.length; index++) {

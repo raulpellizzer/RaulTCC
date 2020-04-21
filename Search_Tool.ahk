@@ -122,7 +122,7 @@ ExitApplication() {
 }
 
 BtnExit:
-    MsgBox, 4,, Are you sure you want to exit? No data will be saved!
+    MsgBox, 4,, Are you sure you want to exit? If the process is still on going no data will be saved!
     IfMsgBox Yes 
         ExitApplication()
     
