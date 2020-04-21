@@ -113,6 +113,12 @@ UpdateProgressBar(configPath) {
 }
 
 BtnExit:
+    executableName := "index-win.exe"
+    try Process, Close, %executableName%
+    try Process, Close, chromedriver.exe
+    try WinClose, Buscap
+    try WinClose, %executableName%
+
     ExitApp
     Return
 
