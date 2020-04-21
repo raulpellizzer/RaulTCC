@@ -28,12 +28,13 @@ class Main {
      */
     async MainExecution() {
         try {
+            var currentPage = "";
 
             await this.Initialize();
             await this.QueryItem();
 
             for (let index = 0; index < this.configSetup.Pages; index++) {
-                let currentPage = index + 1;
+                currentPage = index + 1;
 
                 console.log("Reading page: " + (index + 1));
                 await this.GetBuscaPeProducts();
@@ -42,19 +43,12 @@ class Main {
                     await this.RetrieveData(currentPage);
                     let nextPage = await this.GoToNextPage();
 
-                    if (!nextPage) {
-                        await this.GenerateTXTReport(currentPage);
-                        await this.iniHandler.SetEndOfProcess();
-                        console.log("The process has ended!");
-                        return
-                    }
+                    if (!nextPage)
+                        break;
 
                     await this.buscaPe.DriverSleep(8000);
-                } else {
+                } else
                     this.report.LogError(this.configSetup.MainTag);
-                    await this.iniHandler.SetEndOfProcess();
-                    return
-                }
             }
 
             await this.iniHandler.SetEndOfProcess();
@@ -63,6 +57,7 @@ class Main {
             
             return
         } catch (error) {
+            this.report.LogError(this.configSetup.MainTag);
             await this.iniHandler.SetEndOfProcess();
             console.log(error);
             return
