@@ -2,7 +2,7 @@
 
 Gui, Color, White
 Gui, Font, s15, Verdana
-Gui, Add, Text, w300 h30, E-Commerce Search Tool
+Gui, Add, Text, x20 y15 w300 h30, E-Commerce Search Tool
 Gui, Font, s8
 Gui, Add, GroupBox, w560 h360, Settings
 
@@ -30,6 +30,8 @@ Gui, Add, Progress, x38 y350 w520 h40 -Smooth vProccessProgress, 0
 Gui, Font, s10
 Gui, Add, Button, x135 y435 w105 h35 vBtnStart gBtnStart, Start Search
 Gui, Add, Button, x360 y435 w105 h35 vBtnExit gBtnExit, Exit
+Gui, Font, s8
+Gui, Add, Text, x290 y25 w80 h30, V. 1.0.0
 
 Gui, Show, w600 h500, E-Commerce Search Tool
 return
