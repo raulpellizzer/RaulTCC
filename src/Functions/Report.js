@@ -13,6 +13,7 @@ class Report {
     constructor() {
         this.date       = new Date();
         this.reportPath = "";
+        this.errorPath  = 'C:\\TCC\\src\\data\\errors.txt';
     }
 
     SetReportPath(path) {
@@ -44,7 +45,11 @@ class Report {
     }
 
     RegisterDataInFile(path, data) {
-        fs.appendFileSync(path, data);
+        try {
+            fs.appendFileSync(path, data);
+        } catch (error) {
+            fs.appendFileSync(this.errorPath, error);
+        }
     }
 }
 

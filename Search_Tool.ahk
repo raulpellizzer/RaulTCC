@@ -16,10 +16,11 @@ BtnStart:
         GuiControlGet, totalPages,, Pages
 
         configPath      := "C:\TCC\src\data\config.ini"
+        executablePath  := "C:\TCC\index-win.exe"
         executableName  := "index-win.exe"
 
+        VerifyFiles(configPath, executablePath)
         canProceed := VerifyInputs(userSearchTag, totalPages)
-
         if (canProceed) {
             GuiControl, Disable, BtnStart
             GuiControl, Disable, SearchTag
@@ -29,18 +30,32 @@ BtnStart:
             RunProcess(executableName, configPath)
 
             MsgBox, 64,, The process has ended! 
+            ExitApplication()
             return
         } else {
             errorMessage := "Please fill the input fields in the correct format. The item search field`n"
             errorMessage .= "cannot be empty and the number of pages needs to be a number"
 
             MsgBox, 16,, % errorMessage
+            ExitApplication()
         }
 
         return
     } catch, err {
         MsgBox, % err.Message
     }
+
+VerifyFiles(configPath, executablePath) {
+    if !FileExist(configPath) {
+        MsgBox, 16,, Configuration file not found! The application will now exit
+        ExitApp
+    }
+
+    if !FileExist(executablePath) {
+        MsgBox, 16,, Executable file not found! The application will now exit
+        ExitApp
+    }
+}
 
 SetConfig(configPath, userSearchTag, totalPages) {
     Sleep, 100
@@ -116,10 +131,23 @@ UpdateProgressBar(configPath) {
     GuiControl,, CurrentPage, %currentPage%
 }
 
-ExitApplication() {
-    ; ADJUST !!
-    GuiControl,, ProccessStatus, Exiting ..
+CloseProccesses() {
+    executableName := "index-win.exe"
 
+    try Process, Close, %executableName%
+    try Process, Close, chromedriver.exe
+    try WinClose, Buscap
+    try WinClose, %executableName%
+}
+
+SetExitingTextMessage() {
+    empty := ""
+    GuiControl,, ProccessStatus, Exiting ..
+    GuiControl,, CurrentPage, %empty%
+}
+
+ExitApplication() {
+    SetExitingTextMessage()
     configPath      := "C:\TCC\src\data\config.ini"
     reportPath      := "C:\TCC\src\data\Search.txt"
     executableName  := "index-win.exe"
@@ -128,23 +156,32 @@ ExitApplication() {
     counter := 0
     while !FileExist(reportPath) {
         Sleep, 500
-        if (counter > 20)
-            Break
+        if (counter > 20) {
+            CloseProccesses()
+            ExitApp
+        }
         counter++
     }
 
-    FileGetTime, reportModifTime, %reportPath%
-    while (reportModifTime > -10) {
-        Sleep, 800
-        FileGetTime, reportModifTime, %reportPath%
-        Sleep, 200
-    }
-
-    try Process, Close, %executableName%
-    try Process, Close, chromedriver.exe
-    try WinClose, Buscap
-    try WinClose, %executableName%
+    CheckModificationFile(reportPath)
+    CloseProccesses()
     ExitApp
+
+}
+
+CheckModificationFile(reportPath) {
+    checkOne := ""
+    checkTwo := ""
+
+    FileGetTime, checkOne, %reportPath%
+    Sleep, 2000
+    FileGetTime, checkTwo, %reportPath%
+
+    while (checkOne != checkTwo) {
+        FileGetTime, checkOne, %reportPath%
+        Sleep, 2500
+        FileGetTime, checkTwo, %reportPath%
+    }
 }
 
 BtnExit:
