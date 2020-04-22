@@ -9,6 +9,9 @@ BtnStart:
     try {
         Gui, Submit, NoHide
 
+        if FileExist("C:\TCC\src\data\Search.txt")
+            FileDelete, C:\TCC\src\data\Search.txt
+
         GuiControlGet, userSearchTag,, SearchTag
         GuiControlGet, totalPages,, Pages
 
@@ -114,10 +117,29 @@ UpdateProgressBar(configPath) {
 }
 
 ExitApplication() {
+    ; ADJUST !!
+    GuiControl,, ProccessStatus, Exiting ..
+
     configPath      := "C:\TCC\src\data\config.ini"
+    reportPath      := "C:\TCC\src\data\Search.txt"
+    executableName  := "index-win.exe"
     IniWrite, Yes, %configPath%, CONFIGURATION, ExitProcess
 
-    executableName := "index-win.exe"
+    counter := 0
+    while !FileExist(reportPath) {
+        Sleep, 500
+        if (counter > 20)
+            Break
+        counter++
+    }
+
+    FileGetTime, reportModifTime, %reportPath%
+    while (reportModifTime > -10) {
+        Sleep, 800
+        FileGetTime, reportModifTime, %reportPath%
+        Sleep, 200
+    }
+
     try Process, Close, %executableName%
     try Process, Close, chromedriver.exe
     try WinClose, Buscap

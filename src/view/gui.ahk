@@ -21,7 +21,7 @@ Gui, Add, Text, x35 y200 w105 h20, Export Data As
 Gui, Add, Radio, x55 y230 w160 h20 vTextRadio Checked, Text File (.txt)
 
 Gui, Font, s10 w700
-Gui, Add, Text, x240 y320 w109 h20, Reading Page:
+Gui, Add, Text, x240 y320 w109 h20 vProccessStatus, Reading Page:
 Gui, Font
 Gui, Font, s10, Verdana
 Gui, Add, Text, x353 y320 w105 h20 vCurrentPage
