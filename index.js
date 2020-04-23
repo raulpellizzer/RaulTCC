@@ -1,8 +1,10 @@
 "use strict";
 
-const BuscaPe = require('./src/Functions/BuscaPe');
-const IniHandler = require('./src/Functions/IniHandler');
-const Report = require('./src/Functions/Report');
+const BuscaPe      = require('./src/Functions/BuscaPe');
+const IniHandler   = require('./src/Functions/IniHandler');
+const Report       = require('./src/Functions/Report');
+const ErrorHandler = require('./src/Functions/ErrorHandler');
+const constants    = require('./src/Functions/consts');
 
 class Main {
 
@@ -12,8 +14,9 @@ class Main {
      * @constructor
      */
     constructor() {
-        this.buscaPe      = new BuscaPe();
+        this.errorHandler = new ErrorHandler();
         this.iniHandler   = new IniHandler();
+        this.buscaPe      = new BuscaPe();
         this.report       = new Report();
         this.buscaPeData  = [];
         this.configSetup  = "";
@@ -52,7 +55,7 @@ class Main {
 
                     await this.buscaPe.DriverSleep(8000);
                 } else
-                    this.report.LogError(this.configSetup.MainTag);
+                    this.errorHandler.LogError(this.configSetup.MainTag);
             }
 
             console.log("Aqui 1");
@@ -64,14 +67,15 @@ class Main {
             
             return
         } catch (error) {
+            console.log(error);
+            this.errorHandler.ErrorMessageLog(error);
             console.log("Aqui 4");
-            this.report.LogError(this.configSetup.MainTag);
+            this.errorHandler.LogError(this.configSetup.MainTag);
             console.log("Aqui 5");
             await this.iniHandler.SetEndOfProcess();
             console.log("Aqui 6");
             await this.GenerateTXTReport(currentPage);
             console.log("Aqui 7");
-            console.log(error);
             return
         }
     }
@@ -82,7 +86,7 @@ class Main {
      * @returns
      */
     async Initialize() {
-        this.report.SetReportPath("C:\\TCC\\src\\data\\Search.txt");
+        this.report.SetReportPath(constants.reportPath);
 
         await this.buscaPe.ChromeDriverStartUp(); 
         await this.buscaPe.NavigateToBuscaPe();

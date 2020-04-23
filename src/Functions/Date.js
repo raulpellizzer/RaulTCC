@@ -1,7 +1,7 @@
 "use strict";
 
 const DatePtBR = require('date-pt-br')
-const date = new DatePtBR()
+const date     = new DatePtBR()
 
 class Date {
 
@@ -17,7 +17,6 @@ class Date {
     async GetCurrentFullDate() {
         return await date.getDateTime();
     }
-
 }
 
 module.exports = Date;

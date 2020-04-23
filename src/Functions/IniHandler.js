@@ -1,7 +1,9 @@
 "use strict";
 
-const fs  = require('fs');
-const ini = require('ini');
+const fs           = require('fs');
+const ini          = require('ini');
+const ErrorHandler = require('./ErrorHandler');
+const constants    = require('./consts');
 
 class IniHandler {
 
@@ -11,7 +13,7 @@ class IniHandler {
      * @constructor
      */
     constructor() {
-        this.errorPath = 'C:\\TCC\\src\\data\\errors.txt';
+        this.errorHandler = new ErrorHandler();
     }
 
     /** 
@@ -22,50 +24,47 @@ class IniHandler {
     GetIniConfig()
     {
         try {
-            let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+            let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
             let result = {MainTag: config['CONFIGURATION']['MainTag'],
                         Pages: config['CONFIGURATION']['PagesToSearch']
                         };
 
             return result;
         } catch (error) {
-            let errorMessage = "GetIniConfig Error:\n" + error + "\n\n"
-            fs.appendFileSync(this.errorPath, errorMessage);
+            this.errorHandler.ErrorMessageLog(error);
         }
     }
 
     SetCurrentSearchStatus(totalOfProducts, currentProduct, currentPage) {
         try {
-            let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+            let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
 
             config.CONFIGURATION.TotalProductsInPage = totalOfProducts;
             config.CONFIGURATION.CurrentProduct = currentProduct;
             config.CONFIGURATION.CurrentPage = currentPage;
 
-            fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
+            fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
         } catch (error) {
-            let errorMessage = "SetCurrentSearchStatus Error:\n" + error + "\n\n"
-            fs.appendFileSync(this.errorPath, errorMessage);
+            this.errorHandler.ErrorMessageLog(error);
         }
     }
 
     SetEndOfProcess() { 
         try {
             setTimeout(() => {
-                let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+                let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
     
                 config.CONFIGURATION.ProccessEnded = 'Yes';
-                fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
+                fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
             }, 3000);
         } catch (error) {
-            let errorMessage = "SetEndOfProcess Error:\n" + error + "\n\n"
-            fs.appendFileSync(this.errorPath, errorMessage);
+            this.errorHandler.ErrorMessageLog(error);
         }
     }
 
     CheckExitStatus() {
         try {
-            let config = ini.parse(fs.readFileSync('C:\\TCC\\src\\data\\config.ini', 'ascii'));
+            let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
             let resultStatus = config['CONFIGURATION']['ExitProcess'];
 
             if (resultStatus == "Yes")
@@ -73,8 +72,7 @@ class IniHandler {
             else
                 return false;
         } catch (error) {
-            let errorMessage = "CheckExitStatus Error:\n" + error + "\n\n"
-            fs.appendFileSync(this.errorPath, errorMessage);
+            this.errorHandler.ErrorMessageLog(error);
         }
     }
 }

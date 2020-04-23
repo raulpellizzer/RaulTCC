@@ -1,7 +1,8 @@
 "use strict";
 
-const fs   = require('fs');
-const Date = require('./Date');
+const fs           = require('fs');
+const Date         = require('./Date');
+const ErrorHandler = require('./ErrorHandler');
 
 class Report {
 
@@ -11,22 +12,13 @@ class Report {
      * @constructor
      */
     constructor() {
-        this.date       = new Date();
-        this.reportPath = "";
-        this.errorPath  = 'C:\\TCC\\src\\data\\errors.txt';
+        this.errorHandler = new ErrorHandler();
+        this.date         = new Date();
+        this.reportPath   = "";
     }
 
     SetReportPath(path) {
         this.reportPath = path;
-    }
-
-    async LogError(searchTag) {
-        let time = await this.date.GetCurrentFullDate();
-        let message = time + "\nAn error has occured for: " + searchTag + " "
-        message = message + "or no results were found\n\n";
-        message = message + "--------------------------------------------------------------------------------------------------------------\n\n"
-
-        await this.RegisterDataInFile(this.reportPath, message);
     }
 
     async BuildReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
@@ -48,8 +40,7 @@ class Report {
         try {
             fs.appendFileSync(path, data);
         } catch (error) {
-            let errorMessage = "RegisterDataInFile Error:\n" + error + "\n\n"
-            fs.appendFileSync(this.errorPath, errorMessage);
+            this.errorHandler.ErrorMessageLog(error);
         }
     }
 }

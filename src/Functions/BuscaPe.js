@@ -1,7 +1,7 @@
 "use strict";
 
-const ChromeDriver = require('./ChromeDriver');
-const constants = require('./consts');
+const ChromeDriver  = require('./ChromeDriver');
+const constants     = require('./consts');
 
 class BuscaPe {
 
