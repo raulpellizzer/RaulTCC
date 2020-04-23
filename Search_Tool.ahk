@@ -158,6 +158,7 @@ ExitApplication() {
     }
 
     CheckModificationFile(reportPath)
+    MsgBox, 64,, The process has ended! 
     CloseProccesses()
     ExitApp
 
