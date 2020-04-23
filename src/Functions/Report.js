@@ -48,7 +48,8 @@ class Report {
         try {
             fs.appendFileSync(path, data);
         } catch (error) {
-            fs.appendFileSync(this.errorPath, error);
+            let errorMessage = "RegisterDataInFile Error:\n" + error + "\n\n"
+            fs.appendFileSync(this.errorPath, errorMessage);
         }
     }
 }

@@ -27,8 +27,9 @@ class Main {
      * @returns
      */
     async MainExecution() {
+        var currentPage  = "";
+
         try {
-            var currentPage  = "";
             let exitProccess = "";
 
             await this.Initialize();
@@ -68,6 +69,8 @@ class Main {
             console.log("Aqui 5");
             await this.iniHandler.SetEndOfProcess();
             console.log("Aqui 6");
+            await this.GenerateTXTReport(currentPage);
+            console.log("Aqui 7");
             console.log(error);
             return
         }

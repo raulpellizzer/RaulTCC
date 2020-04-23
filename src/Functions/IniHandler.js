@@ -29,7 +29,8 @@ class IniHandler {
 
             return result;
         } catch (error) {
-            fs.appendFileSync(this.errorPath, error);
+            let errorMessage = "GetIniConfig Error:\n" + error + "\n\n"
+            fs.appendFileSync(this.errorPath, errorMessage);
         }
     }
 
@@ -43,7 +44,8 @@ class IniHandler {
 
             fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
         } catch (error) {
-            fs.appendFileSync(this.errorPath, error);
+            let errorMessage = "SetCurrentSearchStatus Error:\n" + error + "\n\n"
+            fs.appendFileSync(this.errorPath, errorMessage);
         }
     }
 
@@ -56,7 +58,8 @@ class IniHandler {
                 fs.writeFileSync('C:\\TCC\\src\\data\\config.ini', ini.stringify(config, { section: '' }, 'ascii'));
             }, 3000);
         } catch (error) {
-            fs.appendFileSync(this.errorPath, error);
+            let errorMessage = "SetEndOfProcess Error:\n" + error + "\n\n"
+            fs.appendFileSync(this.errorPath, errorMessage);
         }
     }
 
@@ -70,7 +73,8 @@ class IniHandler {
             else
                 return false;
         } catch (error) {
-            fs.appendFileSync(this.errorPath, error);
+            let errorMessage = "CheckExitStatus Error:\n" + error + "\n\n"
+            fs.appendFileSync(this.errorPath, errorMessage);
         }
     }
 }

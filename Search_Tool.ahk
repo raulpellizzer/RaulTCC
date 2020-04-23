@@ -152,15 +152,9 @@ ExitApplication() {
     reportPath      := "C:\TCC\src\data\Search.txt"
     executableName  := "index-win.exe"
     IniWrite, Yes, %configPath%, CONFIGURATION, ExitProcess
-
-    counter := 0
+    
     while !FileExist(reportPath) {
         Sleep, 500
-        if (counter > 20) {
-            CloseProccesses()
-            ExitApp
-        }
-        counter++
     }
 
     CheckModificationFile(reportPath)
