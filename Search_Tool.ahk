@@ -29,9 +29,7 @@ BtnStart:
             SetConfig(configPath, userSearchTag, totalPages)
             RunProcess(executableName, configPath)
 
-            MsgBox, 64,, The process has ended! 
             ExitApplication()
-            return
         } else {
             errorMessage := "Please fill the input fields in the correct format. The item search field`n"
             errorMessage .= "cannot be empty and the number of pages needs to be a number"
@@ -40,7 +38,7 @@ BtnStart:
             ExitApplication()
         }
 
-        return
+        ExitApp
     } catch, err {
         MsgBox, % err.Message
     }
@@ -158,10 +156,8 @@ ExitApplication() {
     }
 
     CheckModificationFile(reportPath)
-    MsgBox, 64,, The process has ended! 
     CloseProccesses()
-    ExitApp
-
+    MsgBox, 64,, The process has ended!
 }
 
 CheckModificationFile(reportPath) {
@@ -184,4 +180,4 @@ BtnExit:
     IfMsgBox Yes 
         ExitApplication()
     
-    Return
+    ExitApp
