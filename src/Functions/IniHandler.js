@@ -44,6 +44,7 @@ class IniHandler {
             config.CONFIGURATION.CurrentPage = currentPage;
 
             fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
+            
         } catch (error) {
             this.errorHandler.ErrorMessageLog(error);
         }
