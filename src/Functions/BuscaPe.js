@@ -279,35 +279,35 @@ class BuscaPe {
             switch (price.length) {
 
                 case 10:
-                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "." + price[5] + price[6] + price[7] + "," + price[8] + price[9]; 
+                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "." + price[5] + price[6] + price[7] + "." + price[8] + price[9]; 
                     break;
                 
                 case 9:
-                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "." + price[4] + price[5] + price[6] + "," + price[7] + price[8]; 
+                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "." + price[4] + price[5] + price[6] + "." + price[7] + price[8]; 
                     break;
             
                 case 8:
-                    price = "R$ " + price[0] + price[1] + price[2] + "." + price[3] + price[4] + price[5] + "," + price[6] + price[7];
+                    price = "R$ " + price[0] + price[1] + price[2] + "." + price[3] + price[4] + price[5] + "." + price[6] + price[7];
                     break;
             
                 case 7:
-                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "," + price[5] + price[6];
+                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3] + price[4] + "." + price[5] + price[6];
                     break;
                 
                 case 6:
-                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "," + price[4] + price[5];
+                    price = "R$ " + price[0] + "." + price[1] + price[2] + price[3] + "." + price[4] + price[5];
                     break;
             
                 case 5:
-                    price = "R$ " + price[0] + price[1] + price[2] + "," + price[3] + price[4];
+                    price = "R$ " + price[0] + price[1] + price[2] + "." + price[3] + price[4];
                     break;
             
                 case 4:
-                    price = "R$ " + price[0] + price[1] + "," + price[2] + price[3];
+                    price = "R$ " + price[0] + price[1] + "." + price[2] + price[3];
                     break;
                 
                 case 3:
-                    price = "R$ " + price[0] + "," + price[1] + price[2];
+                    price = "R$ " + price[0] + "." + price[1] + price[2];
                     break;
             
                 default:

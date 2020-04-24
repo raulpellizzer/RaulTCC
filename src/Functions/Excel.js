@@ -1,6 +1,7 @@
 "use strict";
 
 const csvWriter = require('csv-writer');
+const constants = require('./consts');
 
 class Excel {
 
@@ -10,44 +11,47 @@ class Excel {
      * @constructor
      */
     constructor() {
-        
+        this.csvWriterObject = csvWriter.createObjectCsvWriter;
     }
 
-    test() {
-        const csvWriterObject = csvWriter.createObjectCsvWriter;
-        const csvFileWriter = csvWriterObject({
-        path: 'out.csv',
-        header: [
-            {id: 'name', title: 'Name'},
-            {id: 'surname', title: 'Surname'},
-            {id: 'age', title: 'Age'},
-            {id: 'gender', title: 'Gender'},
-        ]
-        });
+    GenerateExcelReport(rawData) {
+        let csvFileWriter = this.CreateWriterObject();
 
         const data = [
-        {
-            name: 'John',
-            surname: 'Snow',
-            age: 26,
-            gender: 'M'
-        }, {
-            name: 'Clair',
-            surname: 'White',
-            age: 33,
-            gender: 'F',
-        }, {
-            name: 'Fancy',
-            surname: 'Brown',
-            age: 78,
-            gender: 'F'
-        }
-        ];
+            {
+                productName: 'Produto 05',
+                productPrices: '10.05'
+            }, {
+                productName: 'Produto 06',
+                productPrices: '20.50'
+            }, {
+                productName: 'Produto 07',
+                productPrices: '353.97'
+            }
+            ];
 
-        csvFileWriter
-        .writeRecords(data)
-        .then(()=> console.log('The CSV file was written successfully'));
+        this.WriteDataToExcel(csvFileWriter, data);
     }
+
+    WriteDataToExcel(csvFileWriter, data) {
+        csvFileWriter
+            .writeRecords(data)
+            .then(() => {
+                console.log('The CSV file was written successfully')
+            });
+    }
+
+    CreateWriterObject() {
+        var csvFileWriter = this.csvWriterObject({
+            path: constants.csvReportPath,
+            header: [
+                {id: 'productName', title: 'Product Name'},
+                {id: 'productPrices', title: 'Product Price'}
+            ]
+            });
+
+        return csvFileWriter;
+    }    
 
 }
 

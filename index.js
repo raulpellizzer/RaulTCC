@@ -31,6 +31,19 @@ class Main {
      * @returns
      */
     async MainExecution() {
+
+
+
+
+        this.excel.GenerateExcelReport(this.buscaPeData);
+        return;
+
+
+
+
+
+
+
         var currentPage  = "";
 
         try {
