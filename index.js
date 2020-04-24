@@ -5,6 +5,7 @@ const IniHandler   = require('./src/Functions/IniHandler');
 const Report       = require('./src/Functions/Report');
 const ErrorHandler = require('./src/Functions/ErrorHandler');
 const constants    = require('./src/Functions/consts');
+const Excel        = require('./src/Functions/Excel');
 
 class Main {
 
@@ -18,10 +19,10 @@ class Main {
         this.iniHandler   = new IniHandler();
         this.buscaPe      = new BuscaPe();
         this.report       = new Report();
+        this.excel        = new Excel();
         this.buscaPeData  = [];
         this.configSetup  = "";
         this.products     = "";
-        this.reportPath   = "";
     }
 
     /**
@@ -31,7 +32,7 @@ class Main {
      */
     async MainExecution() {
         var currentPage  = "";
-
+        
         try {
             let exitProccess = "";
 
@@ -86,7 +87,7 @@ class Main {
      * @returns
      */
     async Initialize() {
-        this.report.SetReportPath(constants.reportPath);
+        this.report.SetTXTReportPath(constants.txtReportPath);
 
         await this.buscaPe.ChromeDriverStartUp(); 
         await this.buscaPe.NavigateToBuscaPe();
@@ -165,18 +166,18 @@ class Main {
      * @returns
      */
     async GenerateTXTReport(currentPage) {
-        let reportHeader = await this.report.BuildReportInfos(this.configSetup.MainTag, this.configSetup.Pages, currentPage, this.buscaPeData.length);
-        this.report.RegisterDataInFile(this.report.reportPath, reportHeader);
+        let reportHeader = await this.report.BuildTXTReportInfos(this.configSetup.MainTag, this.configSetup.Pages, currentPage, this.buscaPeData.length);
+        this.report.RegisterDataInFile(this.report.txtReportPath, reportHeader);
 
         for (let index = 0; index < this.buscaPeData.length; index++) {
-            this.report.RegisterDataInFile(this.report.reportPath, this.buscaPeData[index].productName + "\n");
+            this.report.RegisterDataInFile(this.report.txtReportPath, this.buscaPeData[index].productName + "\n");
             for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
                 if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
                     continue;
                 let data = this.buscaPeData[index].productPrices[innerIndex].Price + "\n";
-                this.report.RegisterDataInFile(this.report.reportPath, data);
+                this.report.RegisterDataInFile(this.report.txtReportPath, data);
             }
-            this.report.RegisterDataInFile(this.report.reportPath, "\n\n");
+            this.report.RegisterDataInFile(this.report.txtReportPath, "\n\n");
         }
     }
 }

@@ -24,7 +24,7 @@ class ErrorHandler {
         message = message + "or no results were found\n\n";
         message = message + "--------------------------------------------------------------------------------------------------------------\n\n"
 
-        await this.RegisterDataInFile(this.reportPath, message);
+        fs.appendFileSync(this.errorPath, message);
     }
 }
 

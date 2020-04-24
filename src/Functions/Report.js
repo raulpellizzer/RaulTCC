@@ -12,16 +12,16 @@ class Report {
      * @constructor
      */
     constructor() {
-        this.errorHandler = new ErrorHandler();
-        this.date         = new Date();
-        this.reportPath   = "";
+        this.errorHandler   = new ErrorHandler();
+        this.date           = new Date();
+        this.txtReportPath  = "";
     }
 
-    SetReportPath(path) {
-        this.reportPath = path;
+    SetTXTReportPath(path) {
+        this.txtReportPath = path;
     }
 
-    async BuildReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
+    async BuildTXTReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
         let header = "";
         let time   = "";
 
