@@ -31,19 +31,6 @@ class Main {
      * @returns
      */
     async MainExecution() {
-
-
-
-
-        // this.excel.GenerateExcelReport(this.buscaPeData);
-        // return;
-
-
-
-
-
-
-
         var currentPage  = "";
 
         try {
@@ -75,7 +62,7 @@ class Main {
             console.log("Aqui 1");
             await this.iniHandler.SetEndOfProcess();
             console.log("Aqui 2");
-            await this.GenerateTXTReport(currentPage);
+            await this.GenerateReport(currentPage);
             console.log("Aqui 3");
             console.log("The process has ended!");
             
@@ -86,7 +73,7 @@ class Main {
             console.log("Aqui 4");
             await this.iniHandler.SetEndOfProcess();
             console.log("Aqui 5");
-            await this.GenerateTXTReport(currentPage);
+            await this.GenerateReport(currentPage);
             console.log("Aqui 6");
             return
         }
@@ -169,6 +156,19 @@ class Main {
     async GoToNextPage() {
         let res = await this.buscaPe.NavigateToNextPage();
         return res;
+    }
+
+    async GenerateReport(currentPage) {
+        let reportType = await this.iniHandler.GetReportType();
+
+        if (reportType == 'Text')
+            await this.GenerateTXTReport(currentPage);
+        else
+            await this.GenerateCsvReport();
+    }
+
+    async GenerateCsvReport() {
+        await this.excel.GenerateExcelReport(this.buscaPeData);
     }
 
     /**

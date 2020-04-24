@@ -22,13 +22,11 @@ BtnStart:
         VerifyFiles(configPath, executablePath)
         canProceed := VerifyInputs(userSearchTag, totalPages)
         if (canProceed) {
-            ; GuiControl, Disable, BtnStart
-            ; GuiControl, Disable, SearchTag
-            ; GuiControl, Disable, Pages
+            GuiControl, Disable, BtnStart
+            GuiControl, Disable, SearchTag
+            GuiControl, Disable, Pages
 
             SetReportType(configPath)
-            return
-
             SetConfig(configPath, userSearchTag, totalPages)
             RunProcess(executableName, configPath)
 

@@ -18,24 +18,24 @@ class Excel {
         let csvFileWriter = this.CreateWriterObject();
         let data = this.PrepareData(rawData);
 
-        const data = [
-            {
-                productName: 'Produto 05',
-                productPrices: '10.05'
-            }, {
-                productName: 'Produto 06',
-                productPrices: '20.50'
-            }, {
-                productName: 'Produto 07',
-                productPrices: '353.97'
-            }
-            ];
-
         this.WriteDataToExcel(csvFileWriter, data);
     }
 
     PrepareData(rawData) {
-
+        let data = [];
+        let temp = {};
+        
+        for (let index = 0; index < rawData.length; index++) {
+            for (let innerIndex = 0; innerIndex < rawData[index].productPrices.length; innerIndex++) {
+                if (rawData[index].productPrices[innerIndex] == undefined)
+                    continue;
+                    temp = {
+                        productName: rawData[index].productName,
+                        productPrices: rawData[index].productPrices[innerIndex].Price
+                    };
+                    data.push(temp);
+            }
+        }
 
         return data;
     }

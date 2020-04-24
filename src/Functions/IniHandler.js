@@ -35,6 +35,16 @@ class IniHandler {
         }
     }
 
+    GetReportType()
+    {
+        try {
+            let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
+            return config['CONFIGURATION']['ReportType'];
+        } catch (error) {
+            this.errorHandler.ErrorMessageLog(error);
+        }
+    }
+
     SetCurrentSearchStatus(totalOfProducts, currentProduct, currentPage) {
         try {
             let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
