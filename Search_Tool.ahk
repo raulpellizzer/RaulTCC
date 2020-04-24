@@ -22,9 +22,12 @@ BtnStart:
         VerifyFiles(configPath, executablePath)
         canProceed := VerifyInputs(userSearchTag, totalPages)
         if (canProceed) {
-            GuiControl, Disable, BtnStart
-            GuiControl, Disable, SearchTag
-            GuiControl, Disable, Pages
+            ; GuiControl, Disable, BtnStart
+            ; GuiControl, Disable, SearchTag
+            ; GuiControl, Disable, Pages
+
+            SetReportType(configPath)
+            return
 
             SetConfig(configPath, userSearchTag, totalPages)
             RunProcess(executableName, configPath)
@@ -53,6 +56,16 @@ VerifyFiles(configPath, executablePath) {
         MsgBox, 16,, Executable file not found! The application will now exit
         ExitApp
     }
+}
+
+SetReportType(configPath) {
+    GuiControlGet, txtRadio,, TextRadio
+    GuiControlGet, csvRadio,, ExcelRadio
+
+    if (txtRadio)
+        IniWrite, Text, %configPath%, CONFIGURATION, ReportType
+    else
+        IniWrite, Excel, %configPath%, CONFIGURATION, ReportType
 }
 
 SetConfig(configPath, userSearchTag, totalPages) {
@@ -179,5 +192,4 @@ BtnExit:
     MsgBox, 4,, Are you sure you want to exit?
     IfMsgBox Yes 
         ExitApplication()
-    
-    ExitApp
+    return

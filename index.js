@@ -35,8 +35,8 @@ class Main {
 
 
 
-        this.excel.GenerateExcelReport(this.buscaPeData);
-        return;
+        // this.excel.GenerateExcelReport(this.buscaPeData);
+        // return;
 
 
 

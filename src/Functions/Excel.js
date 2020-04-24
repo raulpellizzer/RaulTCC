@@ -16,6 +16,7 @@ class Excel {
 
     GenerateExcelReport(rawData) {
         let csvFileWriter = this.CreateWriterObject();
+        let data = this.PrepareData(rawData);
 
         const data = [
             {
@@ -31,6 +32,12 @@ class Excel {
             ];
 
         this.WriteDataToExcel(csvFileWriter, data);
+    }
+
+    PrepareData(rawData) {
+
+
+        return data;
     }
 
     WriteDataToExcel(csvFileWriter, data) {
