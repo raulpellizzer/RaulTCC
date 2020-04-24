@@ -36,7 +36,7 @@ class Report {
         return header;
     }
 
-    RegisterDataInFile(path, data) {
+    RegisterDataInTXTFile(path, data) {
         try {
             fs.appendFileSync(path, data);
         } catch (error) {

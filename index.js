@@ -32,7 +32,7 @@ class Main {
      */
     async MainExecution() {
         var currentPage  = "";
-        
+
         try {
             let exitProccess = "";
 
@@ -167,17 +167,17 @@ class Main {
      */
     async GenerateTXTReport(currentPage) {
         let reportHeader = await this.report.BuildTXTReportInfos(this.configSetup.MainTag, this.configSetup.Pages, currentPage, this.buscaPeData.length);
-        this.report.RegisterDataInFile(this.report.txtReportPath, reportHeader);
+        this.report.RegisterDataInTXTFile(this.report.txtReportPath, reportHeader);
 
         for (let index = 0; index < this.buscaPeData.length; index++) {
-            this.report.RegisterDataInFile(this.report.txtReportPath, this.buscaPeData[index].productName + "\n");
+            this.report.RegisterDataInTXTFile(this.report.txtReportPath, this.buscaPeData[index].productName + "\n");
             for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
                 if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
                     continue;
                 let data = this.buscaPeData[index].productPrices[innerIndex].Price + "\n";
-                this.report.RegisterDataInFile(this.report.txtReportPath, data);
+                this.report.RegisterDataInTXTFile(this.report.txtReportPath, data);
             }
-            this.report.RegisterDataInFile(this.report.txtReportPath, "\n\n");
+            this.report.RegisterDataInTXTFile(this.report.txtReportPath, "\n\n");
         }
     }
 }
