@@ -71,12 +71,10 @@ class Main {
             console.log(error);
             this.errorHandler.ErrorMessageLog(error);
             console.log("Aqui 4");
-            this.errorHandler.LogError(this.configSetup.MainTag);
-            console.log("Aqui 5");
             await this.iniHandler.SetEndOfProcess();
-            console.log("Aqui 6");
+            console.log("Aqui 5");
             await this.GenerateTXTReport(currentPage);
-            console.log("Aqui 7");
+            console.log("Aqui 6");
             return
         }
     }
