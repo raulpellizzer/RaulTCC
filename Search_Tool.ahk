@@ -9,8 +9,6 @@ BtnStart:
     try {
         Gui, Submit, NoHide
 
-        ClearFiles()
-
         GuiControlGet, userSearchTag,, SearchTag
         GuiControlGet, totalPages,, Pages
 
@@ -21,10 +19,8 @@ BtnStart:
         VerifyFiles(configPath, executablePath)
         canProceed := VerifyInputs(userSearchTag, totalPages)
         if (canProceed) {
-            GuiControl, Disable, BtnStart
-            GuiControl, Disable, SearchTag
-            GuiControl, Disable, Pages
-
+            ClearFiles()
+            DisableControls()
             SetReportType(configPath)
             SetConfig(configPath, userSearchTag, totalPages)
             RunProcess(executableName, configPath)
@@ -52,6 +48,14 @@ VerifyFiles(configPath, executablePath) {
         MsgBox, 16,, Executable file not found! The application will now exit
         ExitApp
     }
+}
+
+DisableControls() {
+    GuiControl, Disable, BtnStart
+    GuiControl, Disable, SearchTag
+    GuiControl, Disable, Pages
+    GuiControl, Disable, TextRadio
+    GuiControl, Disable, ExcelRadio
 }
 
 SetReportType(configPath) {
