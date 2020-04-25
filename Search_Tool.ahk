@@ -35,10 +35,9 @@ BtnStart:
             errorMessage .= "cannot be empty and the number of pages needs to be a number"
 
             MsgBox, 16,, % errorMessage
-            ExitApplication()
+            return
         }
 
-        ExitApp
     } catch, err {
         MsgBox, % err.Message
     }
@@ -187,6 +186,7 @@ ExitApplication() {
     CheckModificationFile(reportPath)
     CloseProccesses()
     MsgBox, 64,, The process has ended!
+    ExitApp
 }
 
 CheckModificationFile(reportPath) {
