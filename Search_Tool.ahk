@@ -9,8 +9,7 @@ BtnStart:
     try {
         Gui, Submit, NoHide
 
-        if FileExist("C:\TCC\src\data\Search.txt")
-            FileDelete, C:\TCC\src\data\Search.txt
+        ClearFiles()
 
         GuiControlGet, userSearchTag,, SearchTag
         GuiControlGet, totalPages,, Pages
@@ -66,6 +65,11 @@ SetReportType(configPath) {
         IniWrite, Excel, %configPath%, CONFIGURATION, ReportType
 }
 
+GetReportType(configPath) {
+    IniRead, reportType, %configPath%, CONFIGURATION, ReportType
+    return reportType
+}
+
 SetConfig(configPath, userSearchTag, totalPages) {
     Sleep, 100
     IniWrite, %userSearchTag%, %configPath%, CONFIGURATION, MainTag
@@ -77,6 +81,14 @@ SetConfig(configPath, userSearchTag, totalPages) {
     IniWrite, No, %configPath%, CONFIGURATION, ProccessEnded
     IniWrite, No, %configPath%, CONFIGURATION, ExitProcess
     Sleep, 100
+}
+
+ClearFiles() {
+    if FileExist("C:\TCC\src\data\Search.txt")
+        FileDelete, C:\TCC\src\data\Search.txt
+
+    if FileExist("C:\TCC\src\data\Search.csv")
+        FileDelete, C:\TCC\src\data\Search.csv
 }
 
 RunProcess(executableName, configPath) {
@@ -158,7 +170,13 @@ SetExitingTextMessage() {
 ExitApplication() {
     SetExitingTextMessage()
     configPath      := "C:\TCC\src\data\config.ini"
-    reportPath      := "C:\TCC\src\data\Search.txt"
+    reportType      :=  GetReportType(configPath)
+
+    if (reportType == "Text")
+        reportPath := "C:\TCC\src\data\Search.txt"
+    else
+        reportPath := "C:\TCC\src\data\Search.csv"
+
     executableName  := "index-win.exe"
     IniWrite, Yes, %configPath%, CONFIGURATION, ExitProcess
     

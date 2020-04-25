@@ -35,6 +35,7 @@ class Excel {
                     };
                     data.push(temp);
             }
+            data.push(temp);
         }
 
         return data;
