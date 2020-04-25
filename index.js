@@ -42,9 +42,7 @@ class Main {
             for (let index = 0; index < this.configSetup.Pages; index++) {
                 currentPage = index + 1;
 
-                console.log("Reading page: " + (index + 1));
                 await this.GetBuscaPeProducts();
-
                 if (this.products != undefined) {
                     exitProccess = await this.RetrieveData(currentPage);
                     if (exitProccess)
@@ -59,22 +57,13 @@ class Main {
                     this.errorHandler.LogError(this.configSetup.MainTag);
             }
 
-            console.log("Aqui 1");
             await this.iniHandler.SetEndOfProcess();
-            console.log("Aqui 2");
             await this.GenerateReport(currentPage);
-            console.log("Aqui 3");
-            console.log("The process has ended!");
-            
             return
         } catch (error) {
-            console.log(error);
             this.errorHandler.ErrorMessageLog(error);
-            console.log("Aqui 4");
             await this.iniHandler.SetEndOfProcess();
-            console.log("Aqui 5");
             await this.GenerateReport(currentPage);
-            console.log("Aqui 6");
             return
         }
     }

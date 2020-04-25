@@ -59,8 +59,7 @@ class Excel {
             });
 
         return csvFileWriter;
-    }    
-
+    }   
 }
 
 module.exports = Excel;
