@@ -89,7 +89,10 @@ class Main {
      * @returns
      */
     async QueryItem() {
-        this.buscaPe.QueryItem(this.configSetup.MainTag);
+        let querySuccess = this.buscaPe.QueryItem(this.configSetup.MainTag);
+
+        while (!querySuccess)
+            querySuccess = this.buscaPe.QueryItem(this.configSetup.MainTag);
     }
 
     /**

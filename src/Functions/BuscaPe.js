@@ -80,8 +80,13 @@ class BuscaPe {
      * @param searchTags - String
      */
     QueryItem(searchTags) {
-        let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q')), 60000);
-        buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
+        try {
+            let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q')), 60000);
+            buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 
     /**
