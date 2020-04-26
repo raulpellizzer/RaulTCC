@@ -43,7 +43,7 @@ class Main {
                 currentPage = index + 1;
 
                 await this.GetBuscaPeProducts();
-                if (this.products != undefined) {
+                if (this.products != undefined && this.products.length > 0) {
                     exitProccess = await this.RetrieveData(currentPage);
                     if (exitProccess)
                         break;
@@ -54,11 +54,12 @@ class Main {
 
                     await this.buscaPe.DriverSleep(8000);
                 } else
-                    this.errorHandler.LogError(this.configSetup.MainTag);
+                    this.errorHandler.ErrorMessageLog('No results were found for: ' + this.configSetup.MainTag);
             }
 
             await this.iniHandler.SetEndOfProcess();
             await this.GenerateReport(currentPage);
+
             return
         } catch (error) {
             this.errorHandler.ErrorMessageLog(error);
