@@ -38,10 +38,11 @@ class BuscaPe {
 
     /**
      * Navigates to next page
+     * 
+     * @returns Boolean
      */
     async NavigateToNextPage() {
-        try
-        {
+        try {
             let btnNext = await this.driver.findElements(constants.By.css("ul[class='ais-Pagination-list ais-Pagination'] > li[class='ais-Pagination-item ais-Pagination ais-Pagination ais-Pagination-item--nextPage'] > a[class='ais-Pagination-link ais-Pagination']"));
             
             if (btnNext.length > 0) {
@@ -49,8 +50,7 @@ class BuscaPe {
                 return true;
             }
         }
-        catch (error)
-        {
+        catch (error) {
             return false;
         }
     }
@@ -62,6 +62,11 @@ class BuscaPe {
         await this.driver.manage().window().maximize();
     }
 
+    /**
+     * Makes the driver sleep for the given miliseconds
+     * 
+     * @param miliSeconds integer
+     */
     async DriverSleep(miliSeconds) {
         await this.driver.sleep(miliSeconds);
     }
@@ -77,7 +82,8 @@ class BuscaPe {
     /**
      * Search for the specified tag in BuscaPe website
      * 
-     * @param searchTags - String
+     * @param searchTags String to be searched
+     * @returns Boolean
      */
     QueryItem(searchTags) {
         try {
@@ -90,7 +96,7 @@ class BuscaPe {
     }
 
     /**
-     * Get the elements from the first page
+     * Get the elements from the page
      * 
      * @returns {WebElement} A web element from buscape
      */
@@ -108,9 +114,9 @@ class BuscaPe {
     /**
      * Retrieves data from an element
      * 
-     * @param singleStore - boolean - Indicates if this product has only one seller
-     * @param index - integer - the index of the outter loop
-     * @returns {Object} Object containing the product name and its main price, in buscape first page
+     * @param singleStore boolean - Indicates if this product has only one seller
+     * @param index integer - the index of the outter loop
+     * @returns {Object} Object containing the product name and its main price, in buscape page
      */
     async GetProductData(singleStore, index) {
         try {
@@ -122,7 +128,7 @@ class BuscaPe {
                 data = {productName, productPrices};
             } else {
                 let productName = await this.GetProductName();
-                let productPrices = await this.GetProductPrices(); // ERROR AQUI
+                let productPrices = await this.GetProductPrices();
                 data = {productName, productPrices};
             }
 
@@ -134,7 +140,7 @@ class BuscaPe {
     }
 
     /**
-     * Retrieves the name of an element in buscape first page
+     * Retrieves the name of an element in buscape page
      * 
      * @returns {String} Product name
      */
@@ -183,8 +189,8 @@ class BuscaPe {
     /**
      * Retrieves the name of a product that has only one seller (not multiple stores)
      * 
-     * @param index - integer
-     * @returns {Object} Object containing the product name and its main price, in buscape first page
+     * @param index integer
+     * @returns {String} Product name
      */
     async GetSingleStoreProductName(index) {
         let productName = "";
@@ -202,8 +208,8 @@ class BuscaPe {
     /**
      * Retrieves the price of a product that has only one seller (not multiple stores)
      * 
-     * @param index - integer
-     * @returns {Array} array containing the product name and its main price, in buscape first page
+     * @param index integer
+     * @returns {Array} array containing the product name and its main price
      */
     async GetSingleStoreProductPrice(index) {
         let productPrice  = "";
@@ -236,10 +242,11 @@ class BuscaPe {
     /**
      * Prepares the string for ordination
      * 
-     * @param data - Array containing the store name and its prices
+     * @param data Array containing the store name and its prices
      * @returns {Array} 
      */
     PrepareDataToOrdination(data) {
+        // ANALISAR - POSSIVEL BUG
         for (let index = 0; index < data.length; index++) {
             let temp = data[index].Price;
     
@@ -248,7 +255,6 @@ class BuscaPe {
     
             temp = temp.split(",");
             temp = temp[0] + temp[1];
-
             
             temp = temp.split(".");
             if (temp.length > 1)
@@ -263,7 +269,7 @@ class BuscaPe {
     /**
      * Ordinates data by its price
      * 
-     * @param data - Array containing the store name and its prices
+     * @param data Array containing the store name and its prices
      * @returns {Array} 
      */
     OrdinateData(data) {
@@ -275,7 +281,7 @@ class BuscaPe {
     /**
      * Builds the full string again
      * 
-     * @param data - Array containing the store name and its prices
+     * @param data Array containing the store name and its prices
      * @returns {Array} 
      */
     ConsolidateData(data) {

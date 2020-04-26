@@ -19,7 +19,7 @@ class IniHandler {
     /** 
      * Retrieves all settings from .ini file
      * 
-     * @returns {Object}
+     * @returns {Object} Query data for the search
      */
     GetIniConfig()
     {
@@ -35,6 +35,11 @@ class IniHandler {
         }
     }
 
+    /** 
+     * Retrieves the report type
+     * 
+     * @returns {String} Report type
+     */
     GetReportType()
     {
         try {
@@ -45,6 +50,13 @@ class IniHandler {
         }
     }
 
+    /** 
+     * Set the current status (step) of the search
+     * 
+     * @param totalOfProducts integer - The total of products in the current page
+     * @param currentProduct integer - The current product
+     * @param currentPage integer - The current page
+     */
     SetCurrentSearchStatus(totalOfProducts, currentProduct, currentPage) {
         try {
             let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
@@ -54,12 +66,15 @@ class IniHandler {
             config.CONFIGURATION.CurrentPage = currentPage;
 
             fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
-            
         } catch (error) {
             this.errorHandler.ErrorMessageLog(error);
         }
     }
 
+    /** 
+     * Sets the end of the proccess
+     * 
+     */
     SetEndOfProcess() { 
         try {
             setTimeout(() => {
@@ -73,6 +88,11 @@ class IniHandler {
         }
     }
 
+    /** 
+     * Verify the exit status
+     * 
+     * @returns Boolean
+     */
     CheckExitStatus() {
         try {
             let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
@@ -84,6 +104,7 @@ class IniHandler {
                 return false;
         } catch (error) {
             this.errorHandler.ErrorMessageLog(error);
+            return false;
         }
     }
 }

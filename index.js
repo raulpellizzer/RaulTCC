@@ -72,7 +72,6 @@ class Main {
     /**
      * Starts browser and gets configuration tags
      * 
-     * @returns
      */
     async Initialize() {
         this.report.SetTXTReportPath(constants.txtReportPath);
@@ -87,7 +86,6 @@ class Main {
     /**
      * Searchs for the item in buscape
      * 
-     * @returns
      */
     async QueryItem() {
         let querySuccess = this.buscaPe.QueryItem(this.configSetup.MainTag);
@@ -97,18 +95,18 @@ class Main {
     }
 
     /**
-     * Retrieve main data
+     * Get the products from the page
      * 
-     * @returns
      */
     async GetBuscaPeProducts() {
         this.products = await this.buscaPe.GetProducts();
     }
 
     /**
-     * Retrieve data about all products
+     * Retrieve data from the products of the current page
      * 
-     * @returns
+     * @param currentPage integer
+     * @returns Boolean
      */
     async RetrieveData(currentPage) {
         let productData = "";
@@ -134,9 +132,8 @@ class Main {
                     productData = {productName: productName, productPrices: "None"};
                 }
 
-            } else {
+            } else
                 productData = await this.buscaPe.GetProductData(true, index);
-            }
 
             this.buscaPeData.push(productData);
             exitStatus = this.iniHandler.CheckExitStatus();
@@ -146,11 +143,21 @@ class Main {
         }
     }
 
+    /**
+     * Navigate to next page in Buscape
+     * 
+     * @returns Boolean
+     */
     async GoToNextPage() {
         let res = await this.buscaPe.NavigateToNextPage();
         return res;
     }
 
+    /**
+     * Generates the final report
+     * 
+     * @param currentPage integer
+     */
     async GenerateReport(currentPage) {
         let reportType = await this.iniHandler.GetReportType();
 
@@ -160,6 +167,10 @@ class Main {
             await this.GenerateCsvReport();
     }
 
+    /**
+     * Generates the excel .csv report
+     * 
+     */
     async GenerateCsvReport() {
         await this.excel.GenerateExcelReport(this.buscaPeData);
     }
@@ -167,6 +178,7 @@ class Main {
     /**
      * Generates a .txt report file
      * 
+     * @param currentPage integer
      * @returns
      */
     async GenerateTXTReport(currentPage) {

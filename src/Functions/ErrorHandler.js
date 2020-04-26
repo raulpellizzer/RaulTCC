@@ -14,6 +14,12 @@ class ErrorHandler {
         this.errorPath = constants.errorPath;
     }
 
+    /**
+     * Logs error into the error file
+     * 
+     * @param error String
+     * @returns
+     */
     ErrorMessageLog(error) {
         fs.appendFileSync(this.errorPath, error);
     }

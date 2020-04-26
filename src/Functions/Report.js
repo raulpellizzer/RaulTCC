@@ -17,10 +17,25 @@ class Report {
         this.txtReportPath  = "";
     }
 
+    /** 
+     * Sets the path for .txt report
+     * 
+     * @param path String
+     * @returns Boolean
+     */
     SetTXTReportPath(path) {
         this.txtReportPath = path;
     }
 
+    /** 
+     * Builds the report Header
+     * 
+     * @param searchTag String - The tag searched
+     * @param numberOfPages String - The number of pages informed for the search
+     * @param currentPage String - Number of pages actually searched
+     * @param totalOfProducts String - Number of prodcuts found
+     * @returns String
+     */
     async BuildTXTReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
         let header = "";
         let time   = "";
@@ -36,6 +51,13 @@ class Report {
         return header;
     }
 
+    /** 
+     * Generates the text report
+     * 
+     * @param path String - Path for the .txt report
+     * @param data String - Data extracted from buscape
+     * @returns String
+     */
     RegisterDataInTXTFile(path, data) {
         try {
             fs.appendFileSync(path, data);

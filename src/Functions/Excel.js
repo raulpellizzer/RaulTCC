@@ -14,6 +14,11 @@ class Excel {
         this.csvWriterObject = csvWriter.createObjectCsvWriter;
     }
 
+    /**
+     * Generates Excel Report
+     * 
+     * @param rawData Array - Data extracted from buscape
+     */
     GenerateExcelReport(rawData) {
         let csvFileWriter = this.CreateWriterObject();
         let data = this.PrepareData(rawData);
@@ -21,6 +26,12 @@ class Excel {
         this.WriteDataToExcel(csvFileWriter, data);
     }
 
+    /**
+     * Prepares data for excel writing
+     * 
+     * @param rawData Array - Data extracted from buscape
+     * @returns Array
+     */
     PrepareData(rawData) {
         let data = [];
         let temp = {};
@@ -41,6 +52,13 @@ class Excel {
         return data;
     }
 
+    /**
+     * Writes data to Excel
+     * 
+     * @param csvFileWriter Writer Object 
+     * @param data Array - Data in the correct format for excel
+     * @returns Array
+     */
     WriteDataToExcel(csvFileWriter, data) {
         csvFileWriter
             .writeRecords(data)
@@ -49,6 +67,11 @@ class Excel {
             });
     }
 
+    /**
+     * Creates writer object for excel
+     * 
+     * @returns {Object} writer object for excel
+     */
     CreateWriterObject() {
         var csvFileWriter = this.csvWriterObject({
             path: constants.csvReportPath,

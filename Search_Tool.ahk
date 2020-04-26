@@ -38,6 +38,13 @@ BtnStart:
         MsgBox, % err.Message
     }
 
+/**
+* Check if the necessary files exists before starting
+*
+* @param configPath String - Path to the configuration file
+* @param executablePath String - Path to the executable file
+* @returns void
+*/
 VerifyFiles(configPath, executablePath) {
     if !FileExist(configPath) {
         MsgBox, 16,, Configuration file not found! The application will now exit
@@ -50,6 +57,11 @@ VerifyFiles(configPath, executablePath) {
     }
 }
 
+/**
+* Disable controls
+*
+* @returns void
+*/
 DisableControls() {
     GuiControl, Disable, BtnStart
     GuiControl, Disable, SearchTag
@@ -58,6 +70,12 @@ DisableControls() {
     GuiControl, Disable, ExcelRadio
 }
 
+/**
+* Sets the report type
+*
+* @param configPath String - Path to the configuration file
+* @returns void
+*/
 SetReportType(configPath) {
     GuiControlGet, txtRadio,, TextRadio
     GuiControlGet, csvRadio,, ExcelRadio
@@ -68,11 +86,25 @@ SetReportType(configPath) {
         IniWrite, Excel, %configPath%, CONFIGURATION, ReportType
 }
 
+/**
+* Retrieves the report type
+*
+* @param configPath String - Path to the configuration file
+* @returns String
+*/
 GetReportType(configPath) {
     IniRead, reportType, %configPath%, CONFIGURATION, ReportType
     return reportType
 }
 
+/**
+* Set main configurations
+*
+* @param configPath String - Path to the configuration file
+* @param userSearchTag String - Search tag informed by the user
+* @param totalPages String - Number of pages for the search
+* @returns void
+*/
 SetConfig(configPath, userSearchTag, totalPages) {
     Sleep, 100
     IniWrite, %userSearchTag%, %configPath%, CONFIGURATION, MainTag
@@ -86,6 +118,12 @@ SetConfig(configPath, userSearchTag, totalPages) {
     Sleep, 100
 }
 
+
+/**
+* Erase files, if exists
+*
+* @returns void
+*/
 ClearFiles() {
     if FileExist("C:\TCC\src\data\Search.txt")
         FileDelete, C:\TCC\src\data\Search.txt
@@ -94,6 +132,13 @@ ClearFiles() {
         FileDelete, C:\TCC\src\data\Search.csv
 }
 
+/**
+* Execute main proccess
+*
+* @param executableName String - Name of the executable file
+* @param configPath String - Path to the configuration file
+* @returns void
+*/
 RunProcess(executableName, configPath) {
     Run, %executableName%
     Sleep, 100
@@ -106,17 +151,30 @@ RunProcess(executableName, configPath) {
 
         while (processEnded != "Yes") {
             UpdateProgressBar(configPath)
-            Sleep, 1000
+            Sleep, 500
             processEnded := GetProccessStatuses(configPath)
         }
     }
 }
 
+/**
+* Retrieves the proccess status
+*
+* @param configPath String - Path to the configuration file
+* @returns String
+*/
 GetProccessStatuses(configPath) {
     IniRead, processStatuses, %configPath%, CONFIGURATION, ProccessEnded
     return processStatuses
 }
 
+/**
+* Verify the user inputs
+*
+* @param userSearchTag String - Search tag informed by the user
+* @param totalPages String - Number of pages for the search
+* @returns Boolean
+*/
 VerifyInputs(userSearchTag, totalPages) {
     textField    := false
     numberField  := false
@@ -134,6 +192,12 @@ VerifyInputs(userSearchTag, totalPages) {
         return false
 }
 
+/**
+* Retrieves current step of the proccess
+*
+* @param configPath String - Path to the configuration file
+* @returns object
+*/
 GetCurrentStep(configPath) {
     IniRead, CurrentProduct, %configPath%, CONFIGURATION, CurrentProduct
     IniRead, TotalProductsInPage, %configPath%, CONFIGURATION, TotalProductsInPage
@@ -144,6 +208,12 @@ GetCurrentStep(configPath) {
         , "currentPage": currentPage}
 }
 
+/**
+* Updates the ui progress bar
+*
+* @param configPath String - Path to the configuration file
+* @returns void
+*/
 UpdateProgressBar(configPath) {
     currentStep := GetCurrentStep(configPath)
     currentPage := currentStep.currentPage
@@ -155,6 +225,11 @@ UpdateProgressBar(configPath) {
     GuiControl,, CurrentPage, %currentPage%
 }
 
+/**
+* Close proccesses
+*
+* @returns void
+*/
 CloseProccesses() {
     executableName := "index-win.exe"
 
@@ -164,12 +239,22 @@ CloseProccesses() {
     try WinClose, %executableName%
 }
 
+/**
+* Set exiting message in ui
+*
+* @returns void
+*/
 SetExitingTextMessage() {
     empty := ""
     GuiControl,, ProccessStatus, Exiting ..
     GuiControl,, CurrentPage, %empty%
 }
 
+/**
+* Terminates Application
+*
+* @returns void
+*/
 ExitApplication() {
     SetExitingTextMessage()
     configPath      := "C:\TCC\src\data\config.ini"
@@ -193,6 +278,12 @@ ExitApplication() {
     ExitApp
 }
 
+/**
+* Check if the report file was recently modified
+*
+* @param reportPath String - Path to the report file
+* @returns void
+*/
 CheckModificationFile(reportPath) {
     checkOne := ""
     checkTwo := ""
