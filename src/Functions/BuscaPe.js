@@ -246,7 +246,6 @@ class BuscaPe {
      * @returns {Array} 
      */
     PrepareDataToOrdination(data) {
-        // ANALISAR - POSSIVEL BUG
         for (let index = 0; index < data.length; index++) {
             let temp = data[index].Price;
     
@@ -257,8 +256,10 @@ class BuscaPe {
             temp = temp[0] + temp[1];
             
             temp = temp.split(".");
-            if (temp.length > 1)
+            if (temp.length == 2)
                 temp = temp[0] + temp[1];
+            else if (temp.length == 3)
+                temp = temp[0] + temp[1] + temp[2]; 
     
             data[index].Price = temp;
         }
