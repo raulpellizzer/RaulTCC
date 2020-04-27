@@ -62,7 +62,7 @@ class Report {
         try {
             fs.appendFileSync(path, data);
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('RegisterDataInTXTFile function error: ' + error);
         }
     }
 }

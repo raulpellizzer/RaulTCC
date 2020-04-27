@@ -46,6 +46,10 @@ class Excel {
                     };
                     data.push(temp);
             }
+            temp = {
+                productName: '',
+                productPrices: ''
+            };
             data.push(temp);
         }
 

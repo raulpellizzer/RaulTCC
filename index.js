@@ -54,7 +54,7 @@ class Main {
 
                     await this.buscaPe.DriverSleep(8000);
                 } else
-                    this.errorHandler.ErrorMessageLog('No results were found for: ' + this.configSetup.MainTag);
+                    this.errorHandler.ErrorMessageLog('[MAIN] No results were found for: ' + this.configSetup.MainTag);
             }
 
             await this.iniHandler.SetEndOfProcess();
@@ -62,7 +62,7 @@ class Main {
 
             return
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('Main execution: ' + error);
             await this.iniHandler.SetEndOfProcess();
             await this.GenerateReport(currentPage);
             return
@@ -179,7 +179,6 @@ class Main {
      * Generates a .txt report file
      * 
      * @param currentPage integer
-     * @returns
      */
     async GenerateTXTReport(currentPage) {
         let reportHeader = await this.report.BuildTXTReportInfos(this.configSetup.MainTag, this.configSetup.Pages, currentPage, this.buscaPeData.length);

@@ -31,7 +31,7 @@ class IniHandler {
 
             return result;
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('GetIniConfig function error: ' + error);
         }
     }
 
@@ -46,7 +46,7 @@ class IniHandler {
             let config = ini.parse(fs.readFileSync(constants.configPath, 'ascii'));
             return config['CONFIGURATION']['ReportType'];
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('GetReportType function error: ' + error);
         }
     }
 
@@ -67,7 +67,7 @@ class IniHandler {
 
             fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('SetCurrentSearchStatus function error: ' + error);
         }
     }
 
@@ -84,7 +84,7 @@ class IniHandler {
                 fs.writeFileSync(constants.configPath, ini.stringify(config, { section: '' }, 'ascii'));
             }, 3000);
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('SetEndOfProcess function error: ' + error);
         }
     }
 
@@ -103,7 +103,7 @@ class IniHandler {
             else
                 return false;
         } catch (error) {
-            this.errorHandler.ErrorMessageLog(error);
+            this.errorHandler.ErrorMessageLog('CheckExitStatus function error: ' + error);
             return false;
         }
     }
