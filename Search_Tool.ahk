@@ -19,6 +19,9 @@ BtnStart:
         VerifyFiles(configPath, executablePath)
         canProceed := VerifyInputs(userSearchTag, totalPages)
         if (canProceed) {
+            Gui, Font, s10 w700
+            Gui, Add, Text, x240 y320 w109 h20 vProccessStatus, Reading Page:
+
             ClearFiles()
             DisableControls()
             SetReportType(configPath)
