@@ -169,7 +169,7 @@ class BuscaPe {
             let prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
             
             // let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
-            // let storeName = await store[0].getAttribute("alt");  // ERRO AQUI !!
+            // let storeName = await store[0].getAttribute("alt");  // Error
             // let storeName = await store[0].getAttribute("title");
             // console.log("name: " + storeName);
             
