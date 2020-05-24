@@ -119,15 +119,16 @@ class BuscaPe {
      * @returns {Object} Object containing the product name and its main price, in buscape page
      */
     async GetProductData(singleStore, index) {
+
         try {
             let data = {};
 
             if (singleStore) {
-                let productName = await this.GetSingleStoreProductName(index);
+                let productName = await this.GetSingleStoreProductName(index); // string simples
                 let productPrices = await this.GetSingleStoreProductPrice(index);
                 data = {productName, productPrices};
             } else {
-                let productName = await this.GetProductName();
+                let productName = await this.GetProductName(); // string simples
                 let productPrices = await this.GetProductPrices();
                 data = {productName, productPrices};
             }
@@ -168,14 +169,12 @@ class BuscaPe {
         for (let index = 0; index < elements.length; index++) {
             let prices = await elements[index].findElements(constants.By.css('div.r-cols > div.col-pricing.pricing > a > span.price > span.price__total'));
             
-            // let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
-            // let storeName = await store[0].getAttribute("alt");  // Error
-            // let storeName = await store[0].getAttribute("title");
-            // console.log("name: " + storeName);
-            
+            let store = await elements[index].findElements(constants.By.css('div.l-cols > div.col-store > a'));
+            let productLink = await this.driver.executeScript("return arguments[0].getAttribute('href')", store[0]);
+            let storeName = await this.driver.executeScript("return arguments[0].getAttribute('title')", store[0]);
             let storePrice = await prices[0].getText();
 
-            finalData = {Price: storePrice};
+            finalData = {Store: storeName, StoreLink: productLink, Price: storePrice};
             data.push(finalData);
         }
 
@@ -223,6 +222,11 @@ class BuscaPe {
         element = await this.driver.findElements(constants.By.css('div.cardBody'));
         element = element[index];
 
+        let buscaPeLink = "https://www.buscape.com.br/";
+        let elementLink = await element.findElements(constants.By.css("a[href*='/lead']"));
+        let productLink = await this.driver.executeScript("return arguments[0].getAttribute('href')", elementLink[0]);
+        buscaPeLink += productLink;
+
         productPrice = await element.findElements(constants.By.css('div.cardInfo > div > div > a.price > span'));
         mainValue    = await productPrice[0].findElements(constants.By.css('span.mainValue'));
         mainValue    = await mainValue[0].getText();
@@ -233,7 +237,7 @@ class BuscaPe {
         store = await element.findElements(constants.By.css("div[class='cardFooter'] > a"));
         store = await store[0].getText();
         
-        productPrice = {Store: store, Price: (mainValue + centsValue)}
+        productPrice = {Store: store, StoreLink: buscaPeLink, Price: (mainValue + centsValue)};
         price.push(productPrice);
     
         return price;

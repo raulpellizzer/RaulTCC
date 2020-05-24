@@ -189,7 +189,7 @@ class Main {
             for (let innerIndex = 0; innerIndex < this.buscaPeData[index].productPrices.length; innerIndex++) {
                 if (this.buscaPeData[index].productPrices[innerIndex] == undefined)
                     continue;
-                let data = this.buscaPeData[index].productPrices[innerIndex].Price + "\n";
+                let data = "Loja: " + this.buscaPeData[index].productPrices[innerIndex].Store + " - " + this.buscaPeData[index].productPrices[innerIndex].Price + " - " + this.buscaPeData[index].productPrices[innerIndex].StoreLink +  "\n";
                 this.report.RegisterDataInTXTFile(this.report.txtReportPath, data);
             }
             this.report.RegisterDataInTXTFile(this.report.txtReportPath, "\n\n");
