@@ -124,11 +124,11 @@ class BuscaPe {
             let data = {};
 
             if (singleStore) {
-                let productName = await this.GetSingleStoreProductName(index); // string simples
+                let productName = await this.GetSingleStoreProductName(index);
                 let productPrices = await this.GetSingleStoreProductPrice(index);
                 data = {productName, productPrices};
             } else {
-                let productName = await this.GetProductName(); // string simples
+                let productName = await this.GetProductName();
                 let productPrices = await this.GetProductPrices();
                 data = {productName, productPrices};
             }
@@ -158,7 +158,7 @@ class BuscaPe {
     /**
      * Retrieves all prices for that specific product
      *
-     * @returns {Array} Product prices
+     * @returns {Array} array containing the store name and its link
      */
     async GetProductPrices() {
         let data      = [];
@@ -208,7 +208,7 @@ class BuscaPe {
      * Retrieves the price of a product that has only one seller (not multiple stores)
      * 
      * @param index integer
-     * @returns {Array} array containing the product name and its main price
+     * @returns {Array} array containing the store name and its link
      */
     async GetSingleStoreProductPrice(index) {
         let productPrice  = "";

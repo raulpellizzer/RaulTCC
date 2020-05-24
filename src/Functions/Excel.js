@@ -42,7 +42,9 @@ class Excel {
                     continue;
                     temp = {
                         productName: rawData[index].productName,
-                        productPrices: rawData[index].productPrices[innerIndex].Price
+                        storeName: rawData[index].productPrices[innerIndex].Store,
+                        productPrices: rawData[index].productPrices[innerIndex].Price,
+                        productLink: rawData[index].productPrices[innerIndex].StoreLink
                     };
                     data.push(temp);
             }
@@ -81,7 +83,9 @@ class Excel {
             path: constants.csvReportPath,
             header: [
                 {id: 'productName', title: 'Product Name'},
-                {id: 'productPrices', title: 'Product Price'}
+                {id: 'storeName', title: 'Store Name'},
+                {id: 'productPrices', title: 'Product Price'},
+                {id: 'productLink', title: 'Link'}
             ]
             });
 
