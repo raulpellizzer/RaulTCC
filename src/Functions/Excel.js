@@ -63,7 +63,6 @@ class Excel {
      * 
      * @param csvFileWriter Writer Object 
      * @param data Array - Data in the correct format for excel
-     * @returns Array
      */
     WriteDataToExcel(csvFileWriter, data) {
         csvFileWriter

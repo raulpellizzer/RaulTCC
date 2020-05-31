@@ -21,7 +21,6 @@ class Report {
      * Sets the path for .txt report
      * 
      * @param path String
-     * @returns Boolean
      */
     SetTXTReportPath(path) {
         this.txtReportPath = path;
@@ -31,9 +30,9 @@ class Report {
      * Builds the report Header
      * 
      * @param searchTag String - The tag searched
-     * @param numberOfPages String - The number of pages informed for the search
-     * @param currentPage String - Number of pages actually searched
-     * @param totalOfProducts String - Number of prodcuts found
+     * @param numberOfPages integer - The number of pages informed for the search
+     * @param currentPage integer - Number of pages actually searched
+     * @param totalOfProducts integer - Number of prodcuts found
      * @returns String
      */
     async BuildTXTReportInfos(searchTag, numberOfPages, currentPage, totalOfProducts) {
@@ -56,7 +55,6 @@ class Report {
      * 
      * @param path String - Path for the .txt report
      * @param data String - Data extracted from buscape
-     * @returns String
      */
     RegisterDataInTXTFile(path, data) {
         try {
