@@ -37,12 +37,14 @@ class Main {
             let exitProccess = "";
 
             await this.Initialize();
+            await this.buscaPe.DriverSleep(1000);
             await this.QueryItem();
 
             for (let index = 0; index < this.configSetup.Pages; index++) {
                 currentPage = index + 1;
 
                 await this.GetBuscaPeProducts();
+                await this.buscaPe.DriverSleep(1000);
                 if (this.products != undefined && this.products.length > 0) {
                     exitProccess = await this.RetrieveData(currentPage);
                     if (exitProccess)

@@ -7,6 +7,9 @@ SetTitleMatchMode, 2
 BtnStart:
 
     try {
+
+        ; FAZER VERIFICAÇÃO DO NÚMERO DE PÁGINAS NEGATIVAS !!! CORRIGIR BUG
+
         Gui, Submit, NoHide
 
         GuiControlGet, userSearchTag,, SearchTag
