@@ -87,7 +87,8 @@ class BuscaPe {
      */
     QueryItem(searchTags) {
         try {
-            let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q')), 60000);
+            // let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.name('q')), 60000);
+            let buscaPeSearchBar = this.driver.wait(constants.until.elementLocated(constants.By.css("div[class='search-bar'] > input[class*='react-autosuggest__input search-bar__text-box']")), 60000);
             buscaPeSearchBar.sendKeys(searchTags, constants.Key.ENTER);
             return true;
         } catch (error) {
