@@ -7,9 +7,6 @@ SetTitleMatchMode, 2
 BtnStart:
 
     try {
-
-        ; FAZER VERIFICAÇÃO DO NÚMERO DE PÁGINAS NEGATIVAS !!! CORRIGIR BUG
-
         Gui, Submit, NoHide
 
         GuiControlGet, userSearchTag,, SearchTag
@@ -189,7 +186,7 @@ VerifyInputs(userSearchTag, totalPages) {
         textField := true
     }
 
-    if totalPages is integer
+    if ((totalPages/1 != "") && totalPages > 0)
         numberField := true
 
     if (textField == true && numberField == true)
